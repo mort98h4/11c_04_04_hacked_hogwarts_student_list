@@ -1,0 +1,22 @@
+* {
+    box-sizing: border-box;
+}
+
+h1 {
+    text-align: center;
+}
+
+body {
+    background-image: url(images/bg_image.png);
+    height: 100vh;
+    width: 100vw;
+    background-size: cover;
+    overflow: hidden;
+}
+
+header {}
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+}

@@ -4,16 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex">
-    <title>11c_03_06_design_hogwarts_student_list</title>
+    <title>11c_04_04_hacked_hogwarts_student_list</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
         <h1>Hogwarts student list</h1>
+        <nav id="filterButtons">
+            <button class="filter" data-action="filter" data-filter="*">All students</button>
+            <button class="filter" data-action="filter" data-filter="gryffindor">Gryffindor</button>
+            <button class="filter" data-action="filter" data-filter="slytherin">Slytherin</button>
+            <button class="filter" data-action="filter" data-filter="hufflepuff">Hufflepuff</button>
+            <button class="filter" data-action="filter" data-filter="ravenclaw">Ravenclaw</button>
+            <button class="filter" data-action="filter" data-filter="expelled">Expelled students</button>
+        </nav>
     </header>
     <main>
-
+        <table id="list">
+            <thead>
+                <tr id="sorting">
+                    <th data-action="sort" data-sort-direction="asc" data-sort="firs">First name</th>
+                    <th data-action="sort" data-sort-direction="asc" data-sort="last">Last name</th>
+                    <th data-action="sort" data-sort-direction="asc" data-sort="hous">House</th>
+                    <th data-action="sort" data-sort-direction="asc" data-sort="resp">Responsibilities</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- the student template will be inserted here -->
+            </tbody>
+        </table>
     </main>
+
+    <template id="student">
+        <tr>
+            <td data-field="firs">FIRST NAME</td>
+            <td data-field="last">LAST NAME</td>
+            <td data-field="hous">HOUSE</td>
+            <td data-field="resp">RESPONSIBILITIES</td>
+        </tr>
+    </template>
+
     <footer>
         
     </footer>

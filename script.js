@@ -20,16 +20,19 @@ const Student = {
 // Settings for the global filtering and sorting variables
 const settings = {
     filterBy: "*",
-    sortBy: "name",
+    sortBy: "firstName",
     sortDir: "asc"
 };
 
 function init() {
     console.log("init");
 
-    // TODO: Add eventlisteners for filtering and sorting buttons
+    // Add eventlisteners for filtering and sorting buttons
     document.querySelectorAll("[data-action='filter']").forEach(button => {
         button.addEventListener("click", selectFilter);
+    });
+    document.querySelectorAll("[data-action='sort']").forEach(button => {
+        button.addEventListener("click", selectSort);
     });
 
     loadJSON("https://petlatkea.dk/2021/hogwarts/students.json", prepareStudents);
@@ -45,9 +48,6 @@ async function loadJSON(url, callback) {
 function prepareStudents(jsonData) {
     allStudents = jsonData.map(prepareStudent);
     //console.table(allStudents);
-
-    // TODO: This might not be the function we want to call first
-    //displayStudents(allStudents);
     setFilter(settings.filterBy);
 }
 
@@ -135,10 +135,8 @@ function filterList(filterListBy) {
 
     function isStudentFilter(student) {
         if (filterListBy === "*") {
-            console.log(filterListBy);
             return allStudents;
         } else if (student.house === filterListBy) {
-            console.log(filterListBy);
             return true;
         }
         // TODO: Add more filters
@@ -149,11 +147,59 @@ function filterList(filterListBy) {
     return filteredList;
 }
 
+// The user seleceted sorting
+function selectSort() {
+    console.log(this.dataset.sort);
+    const sortBy = this.dataset.sort;
+    const sortDir = this.dataset.sortDirection;
+
+    // Find the element with class sortby, and remove the class
+    document.querySelector(`[data-sort='${settings.sortBy}']`).classList.remove("sortby");
+
+    // TODO: Indicate active sorting
+    this.classList.add("sortby");
+
+    // Toggle the sorting direction
+    if (sortDir === "asc") {
+        this.dataset.sortDirection = "desc";
+    } else {
+        this.dataset.sortDirection = "asc";
+    }
+
+    setSort(sortBy, sortDir);
+}
+
+// Sets the user selected sorting as the sort used to sort the list
+function setSort(sortBy, sortDir) {
+    settings.sortBy = sortBy;
+    settings.sortDir = sortDir;
+    console.log(settings.sortBy);
+    buildList();
+}
+
+function sortList(sortedList) {
+    let direction = 1;
+    if (settings.sortDir === "desc") {
+        direction = -1;
+    }
+    sortedList = sortedList.sort(sortByProberty);
+
+    function sortByProberty(studentA, studentB) {
+        if (studentA[settings.sortBy] < studentB[settings.sortBy]) {
+            return -1 * direction;
+        } else {
+            return 1 * direction;
+        }
+    }
+    return sortedList;
+}
+
 // The function that delegates the filter and the sorting
 function buildList() {
     const currentList = filterList(settings.filterBy);
+    const sortedList = sortList(currentList);
 
-    displayStudents(currentList);
+    displayStudents(sortedList);
 }
 
 function displayStudents(students) {

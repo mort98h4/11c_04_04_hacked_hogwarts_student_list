@@ -17,12 +17,21 @@ body {
 header {}
 
 main {
+}
+
+#list {
     max-width: 1200px;
     margin: 0 auto;
 }
 
+#sorting {
+    text-align: left;
+}
+
 /***** MODALS *****/
-.hide {}
+.hide {
+    visibility: hidden;
+}
 
 .modal {
     position: fixed;
@@ -49,6 +58,12 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+}
+
+.content_body {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .content_body ul {

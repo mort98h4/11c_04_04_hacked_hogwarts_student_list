@@ -19,8 +19,8 @@ const Student = {
 
 // Settings for the global filtering and sorting variables
 const settings = {
-    filterBy: "all",
-    sortBy: "hous",
+    filterBy: "*",
+    sortBy: "name",
     sortDir: "asc"
 };
 
@@ -28,6 +28,9 @@ function init() {
     console.log("init");
 
     // TODO: Add eventlisteners for filtering and sorting buttons
+    document.querySelectorAll("[data-action='filter']").forEach(button => {
+        button.addEventListener("click", selectFilter);
+    });
 
     loadJSON("https://petlatkea.dk/2021/hogwarts/students.json", prepareStudents);
 }
@@ -44,7 +47,8 @@ function prepareStudents(jsonData) {
     //console.table(allStudents);
 
     // TODO: This might not be the function we want to call first
-    displayStudents(allStudents);
+    //displayStudents(allStudents);
+    setFilter(settings.filterBy);
 }
 
 function prepareStudent(jsonObject) {
@@ -111,6 +115,45 @@ function prepareStudent(jsonObject) {
     }
 
     return student;
+}
+
+// The user selected filter 
+function selectFilter() {
+    const filter = this.dataset.filter;
+    setFilter(filter);
+} 
+
+// Sets the user selected filter as the filter used to filtrate the list
+function setFilter(filter) {
+    settings.filterBy = filter;
+    buildList();
+}
+
+// The function that defines the filtered list
+function filterList(filterListBy) {
+    const filteredList = allStudents.filter(isStudentFilter);
+
+    function isStudentFilter(student) {
+        if (filterListBy === "*") {
+            console.log(filterListBy);
+            return allStudents;
+        } else if (student.house === filterListBy) {
+            console.log(filterListBy);
+            return true;
+        }
+        // TODO: Add more filters
+        // TODO: Make special condition for showing only the expelled students. 
+        //       It might have something to do with a new array. Who knows.
+    }
+    
+    return filteredList;
+}
+
+// The function that delegates the filter and the sorting
+function buildList() {
+    const currentList = filterList(settings.filterBy);
+
+    displayStudents(currentList);
 }
 
 function displayStudents(students) {

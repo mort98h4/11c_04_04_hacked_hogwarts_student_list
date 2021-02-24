@@ -177,12 +177,12 @@ function setSort(sortBy, sortDir) {
     buildList();
 }
 
-function sortList(sortedList) {
+function sortList(currentList) {
     let direction = 1;
     if (settings.sortDir === "desc") {
         direction = -1;
     }
-    sortedList = sortedList.sort(sortByProberty);
+    const sortedList = currentList.sort(sortByProberty);
 
     function sortByProberty(studentA, studentB) {
         if (studentA[settings.sortBy] < studentB[settings.sortBy]) {

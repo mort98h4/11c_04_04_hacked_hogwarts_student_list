@@ -177,12 +177,12 @@ function setSort(sortBy, sortDir) {
     buildList();
 }
 
-function sortList(currentList) {
+function sortList(filteredList) {
     let direction = 1;
     if (settings.sortDir === "desc") {
         direction = -1;
     }
-    const sortedList = currentList.sort(sortByProberty);
+    const sortedList = filteredList.sort(sortByProberty);
 
     function sortByProberty(studentA, studentB) {
         if (studentA[settings.sortBy] < studentB[settings.sortBy]) {
@@ -196,8 +196,8 @@ function sortList(currentList) {
 
 // The function that delegates the filter and the sorting
 function buildList() {
-    const currentList = filterList(settings.filterBy);
-    const sortedList = sortList(currentList);
+    const filteredList = filterList(settings.filterBy);
+    const sortedList = sortList(filteredList);
 
     displayStudents(sortedList);
 }

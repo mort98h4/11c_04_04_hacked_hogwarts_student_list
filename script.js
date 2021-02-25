@@ -141,7 +141,7 @@ function filterList(filterListBy) {
     function isStudentFilter(student) {
         if (filterListBy === "*") {
             return allStudents;
-        } else if (student.house === filterListBy) {
+        } else if (student.house.toLowerCase() === filterListBy.toLowerCase()) {
             return true;
         }
         // TODO: Add more filters

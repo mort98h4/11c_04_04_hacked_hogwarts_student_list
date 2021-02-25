@@ -210,6 +210,7 @@ function buildList() {
     displayStudents(sortedList);
 }
 
+// Displays the list of students
 function displayStudents(students) {
     //console.log(students);
     // Clear the list
@@ -219,6 +220,7 @@ function displayStudents(students) {
     students.forEach(displayStudent);
 }
 
+// Display each student of the list
 function displayStudent(student) {
     //console.log(student);
     // Create the clone
@@ -245,6 +247,7 @@ function displayStudent(student) {
     document.querySelector("#list tbody").appendChild(clone);
 }
 
+// Displays the modal with a specific students details
 function showStudentDetails(student) {
     document.querySelector("#student_details").classList.remove("hide");
     //console.log(student);
@@ -285,23 +288,18 @@ function showStudentDetails(student) {
         closeStudentDetails();
         buildList();
     }
-    // TODO: expel, inquisitorial, prefect buttons
+    // TODO: expel, inquisitorial
 }
 
+// Make a student prefect
 function tryToMakePrefect(selectedStudent) {
-    console.log(selectedStudent);
-
-    
-
-    // Array of all the prefects
+    // Create an array of students whom is form the same house and of same gender
     const prefects = allStudents.filter(student => student.prefect === true);
-
-    // Array of the prefects of the same house as selected student 
     const prefectsPerHouse = prefects.filter(student => student.house === selectedStudent.house);
-
-    // Array of the prefects of the same house and gender as selected student
     const ofSameHouseAndGender = prefectsPerHouse.filter(student => student.gender === selectedStudent.gender).shift();
 
+    // If no other student is from the same house or of the same gender, 
+    // make the selected student prefect. If not, go to removeOtherPrefect. 
     if (ofSameHouseAndGender !== undefined) {
         console.log("This is too many...");
         removeOtherPrefect(ofSameHouseAndGender);
@@ -310,18 +308,22 @@ function tryToMakePrefect(selectedStudent) {
     }
 
     function removeOtherPrefect() {
+        // Show #remove_other dialog box, and add eventlisteners to buttons.
         document.querySelector("#remove_other").classList.remove("hide");
         document.querySelector("#remove_other").addEventListener("click", closeDialog);
         document.querySelector("#remove_other .remove_other_prefect").addEventListener("click", clickRemovePrefect);
 
-        document.querySelector("#remove_other [data-field=selectedStudent]").textContent = `${selectedStudent.firstName} ${selectedStudent.lastName}`;
+        // Add name to button
+        document.querySelector("#remove_other [data-field=selectedStudent]").textContent = `${ofSameHouseAndGender.firstName} ${ofSameHouseAndGender.lastName}`;
 
+        // Don't remove the original prefect
         function closeDialog() {
             document.querySelector("#remove_other").classList.add("hide");
             document.querySelector("#remove_other").removeEventListener("click", closeDialog);
             document.querySelector("#remove_other .remove_other_prefect").removeEventListener("click", clickRemovePrefect);    
         }
 
+        // Remove the original prefect
         function clickRemovePrefect(){
             removePrefect(ofSameHouseAndGender);
             makePrefect(selectedStudent);
@@ -330,10 +332,12 @@ function tryToMakePrefect(selectedStudent) {
         }
     }
 
+    // Removes the original prefect, by setting the proberty to false
     function removePrefect(ofSameHouseAndGender) {
         ofSameHouseAndGender.prefect = false;
     }
 
+    // Makes the selected student prefect, by setting the proberty to true
     function makePrefect(selectedStudent) {
         selectedStudent.prefect = true;
     }

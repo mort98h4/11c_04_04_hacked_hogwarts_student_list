@@ -70,7 +70,7 @@
             </div>
             <div class="content_buttons">
                 <button class="make_prefect"><span data-field="makePrefect">Make</span> prefect</button>
-                <button class="make_inqi">Make inqisitorial squadrant</button>
+                <button class="make_inqu"><span data-field="makeInqu">Make</span> inqisitorial squad member</button>
                 <button class="expel">Expel!</button>
             </div>
         </div>
@@ -86,6 +86,20 @@
             </div>
             <div class="content_buttons">
                 <button class="remove_other_prefect">Remove <span data-field="selectedStudent">student</span> as prefect?</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="make_inqu" class="modal hide">
+        <div class="content">
+            <div class="content_header">
+                <button class="close">X</button>
+            </div>
+            <div class="content_body">
+                <p data-field="inqumessage"></p>
+            </div>
+            <div class="content_buttons">
+                <button class="make_inqu">Make <span data-field="selectedStudent">student</span> an inquisitorial squad member?</button>
             </div>
         </div>
     </div>

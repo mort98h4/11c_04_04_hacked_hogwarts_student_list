@@ -243,18 +243,24 @@ function displayStudent(student) {
     clone.querySelector("[data-field=firs]").textContent = student.firstName;
     clone.querySelector("[data-field=last]").textContent = student.lastName;
     clone.querySelector("[data-field=hous]").textContent = student.house;
-    if (student.prefect === true) {
+
+    // Changes the proberty of student.responsibilities depending on prefect and inquisiorial values
+    if (student.prefect === true && student.inquisitorial === false) {
         student.responsibilities = `Prefect`;
-        clone.querySelector("[data-field=resp]").textContent = `Prefect`;
+    } else if (student.prefect === false && student.inquisitorial === true) {
+        student.responsibilities = `Inquisitorial squad member`;
+    } else if (student.prefect === true && student.inquisitorial === true) {
+        student.responsibilities = `Prefect, Inquisitorial squad member`;
     } else {
         student.responsibilities = "";
-        clone.querySelector("[data-field=resp]").textContent = student.responsibilities;
     }
-    
+    clone.querySelector("[data-field=resp]").textContent = student.responsibilities;
+
     // Add click to the students in the list
-    clone.querySelector("tr").addEventListener("click", () => {
+    clone.querySelector("tr").addEventListener("click", clickStudentDetails);
+    function clickStudentDetails() {
         showStudentDetails(student);
-    });
+    }
     
     // Append clone to list
     document.querySelector("#list tbody").appendChild(clone);
@@ -263,7 +269,8 @@ function displayStudent(student) {
 // Displays the modal with a specific students details
 function showStudentDetails(student) {
     document.querySelector("#student_details").classList.remove("hide");
-    //console.log(student);
+
+    // Insert the specific student's details
     document.querySelector(".col_left h3").textContent = `${student.lastName}, ${student.firstName.substring(0,1)}.`;
     document.querySelector(".col_left [data-field=firs]").textContent = student.firstName;
     document.querySelector(".col_left [data-field=midd]").textContent = student.middleName;
@@ -272,15 +279,24 @@ function showStudentDetails(student) {
     document.querySelector(".col_left [data-field=gend]").textContent = student.gender;
     document.querySelector(".col_left [data-field=bloo]").textContent = student.bloodStatus;
     document.querySelector(".col_left [data-field=hous]").textContent = student.house;
-    if (student.prefect === true) {
-        document.querySelector(".col_left [data-field=resp]").textContent = `Prefect`;
-        document.querySelector("#student_details [data-field=makePrefect]").textContent = `Remove`;
-    } else {
-        document.querySelector(".col_left [data-field=resp]").textContent = student.responsibilities;
-        document.querySelector("#student_details [data-field=makePrefect]").textContent = `Make`;
-    }
+    document.querySelector(".col_left [data-field=resp]").textContent = student.responsibilities;
     document.querySelector(".col_right img").src = student.imageUrl;
     document.querySelector(".col_right img").alt = `Portrait of ${student.firstName} ${student.lastName}`;
+
+    // Update button texts depending on responsibilities
+    if (student.prefect === true && student.inquisitorial === false) {
+        document.querySelector("#student_details [data-field=makePrefect]").textContent = `Remove`;
+        document.querySelector("#student_details [data-field=makeInqu]").textContent = `Make`;
+    } else if (student.prefect === false && student.inquisitorial === true) {
+        document.querySelector("#student_details [data-field=makeInqu]").textContent = `Remove as`;
+        document.querySelector("#student_details [data-field=makePrefect]").textContent = `Make`;
+    } else if (student.prefect === true && student.inquisitorial === true) {
+        document.querySelector("#student_details [data-field=makePrefect]").textContent = `Remove`;
+        document.querySelector("#student_details [data-field=makeInqu]").textContent = `Remove as`;
+    } else {
+        document.querySelector("#student_details [data-field=makePrefect]").textContent = `Make`;
+        document.querySelector("#student_details [data-field=makeInqu]").textContent = `Make`;
+    }
 
     // Add click to close
     document.querySelector(".content_header .close").addEventListener("click", closeStudentDetails);
@@ -293,7 +309,9 @@ function showStudentDetails(student) {
     document.querySelector(".make_prefect").addEventListener("click", clickMakePrefect);
     function clickMakePrefect() {
         console.log("clickMakePrefect");
-        document.querySelector(".make_prefect").removeEventListener("click", clickMakePrefect);
+        // Remove click eventlisteners
+        document.querySelector("#student_details .make_prefect").removeEventListener("click", clickMakePrefect);
+        document.querySelector("#student_details .make_inqu").removeEventListener("click", clickMakeInqu);
         if (student.prefect === true) {
             student.prefect = false;
         } else {
@@ -302,7 +320,24 @@ function showStudentDetails(student) {
         closeStudentDetails();
         buildList();
     }
-    // TODO: expel, inquisitorial
+
+    // Add click to inqisitorial squad button
+    document.querySelector("#student_details .make_inqu").addEventListener("click", clickMakeInqu);
+    function clickMakeInqu() {
+        console.log("clickMakeInqu");
+        // Remove click eventlisteners
+        document.querySelector("#student_details .make_prefect").removeEventListener("click", clickMakePrefect);
+        document.querySelector("#student_details .make_inqu").removeEventListener("click", clickMakeInqu);
+        if (student.inquisitorial === true) {
+            student.inquisitorial = false;
+        } else {
+            tryToMakeInqu(student);
+            buildList();
+        }
+        closeStudentDetails();
+        buildList();
+    }
+    // TODO: expel
 }
 
 // Make a student prefect
@@ -315,7 +350,6 @@ function tryToMakePrefect(selectedStudent) {
     // If no other student is from the same house or of the same gender, 
     // make the selected student prefect. If not, go to removeOtherPrefect. 
     if (ofSameHouseAndGender !== undefined) {
-        console.log("This is too many...");
         removeOtherPrefect();
     } else {
         makePrefect(selectedStudent);
@@ -324,7 +358,7 @@ function tryToMakePrefect(selectedStudent) {
     function removeOtherPrefect() {
         // Show #remove_other dialog box, and add eventlisteners to buttons.
         document.querySelector("#remove_other").classList.remove("hide");
-        document.querySelector("#remove_other").addEventListener("click", closeDialog);
+        document.querySelector("#remove_other .close").addEventListener("click", closeDialog);
         document.querySelector("#remove_other .remove_other_prefect").addEventListener("click", clickRemovePrefect);
 
         // Add name to button
@@ -333,12 +367,13 @@ function tryToMakePrefect(selectedStudent) {
         // Don't remove the original prefect
         function closeDialog() {
             document.querySelector("#remove_other").classList.add("hide");
-            document.querySelector("#remove_other").removeEventListener("click", closeDialog);
+            document.querySelector("#remove_other .close").removeEventListener("click", closeDialog);
             document.querySelector("#remove_other .remove_other_prefect").removeEventListener("click", clickRemovePrefect);    
         }
 
         // Remove the original prefect
         function clickRemovePrefect(){
+            document.querySelector("#remove_other .remove_other_prefect").removeEventListener("click", clickRemovePrefect);
             removePrefect(ofSameHouseAndGender);
             makePrefect(selectedStudent);
             buildList();
@@ -354,5 +389,45 @@ function tryToMakePrefect(selectedStudent) {
     // Makes the selected student prefect, by setting the proberty to true
     function makePrefect(selectedStudent) {
         selectedStudent.prefect = true;
+    }
+}
+
+// Make a student an inquisitorial squadront
+function tryToMakeInqu(selectedStudent) {
+    document.querySelector("#make_inqu").classList.remove("hide");
+
+    // Add click to close button
+    document.querySelector("#make_inqu .close").addEventListener("click", closeDialog);
+    function closeDialog() {
+        document.querySelector("#make_inqu").classList.add("hide");
+        document.querySelector("#make_inqu .close").removeEventListener("click", closeDialog);
+
+    }
+
+    // If student is a pure blood, add selected students name to button and create message
+    if (selectedStudent.bloodStatus === "Pure blood") {
+        document.querySelector("#make_inqu [data-field=inqumessage]").textContent = `${selectedStudent.firstName} ${selectedStudent.lastName} is a ${selectedStudent.bloodStatus.toLowerCase()} ${selectedStudent.gender.toLowerCase()}, and is eligible for the Inquisitorial Squad!`;
+        document.querySelector("#make_inqu [data-field=selectedStudent]").textContent = `${selectedStudent.firstName} ${selectedStudent.lastName}`;
+        document.querySelector("#make_inqu .make_inqu").style.display = "block";
+        document.querySelector("#make_inqu .make_inqu").addEventListener("click", clickInquButton);
+    } 
+    // If not, hide button and change message
+    else {
+        document.querySelector("#make_inqu .make_inqu").removeEventListener("click", clickInquButton);
+        document.querySelector("#make_inqu [data-field=inqumessage]").textContent = `${selectedStudent.firstName} ${selectedStudent.lastName} is a ${selectedStudent.bloodStatus.toLowerCase()} ${selectedStudent.gender.toLowerCase()}, and is not eligible for the Inquisitorial Squad!`;
+        document.querySelector("#make_inqu .make_inqu").style.display = "none";
+    }
+
+    // Click on inquisition button
+    function clickInquButton() {
+        document.querySelector("#make_inqu .make_inqu").removeEventListener("click", clickInquButton);
+        makeInqu(selectedStudent);
+        buildList();
+        closeDialog();
+    }
+
+    // Make student inquisition squad member by setting proberty to true
+    function makeInqu(selectedStudent) {
+        selectedStudent.inquisitorial = true;
     }
 }

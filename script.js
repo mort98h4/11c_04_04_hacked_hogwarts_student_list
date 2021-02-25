@@ -1,5 +1,6 @@
 "use strict";
 
+// Wait for the DOM to be loaded, then call init()
 window.addEventListener("DOMContentLoaded", init);
 
 let allStudents = [];
@@ -24,6 +25,7 @@ const settings = {
     sortDir: "asc"
 };
 
+// When the DOM is loaded, make filter and sort buttons clickable. Begin fetching JSON.
 function init() {
     console.log("init");
 
@@ -38,6 +40,7 @@ function init() {
     loadJSON("https://petlatkea.dk/2021/hogwarts/students.json", prepareStudents);
 }
 
+// Fetch JSON data
 async function loadJSON(url, callback) {
     const JSONData = await fetch(url);
     const students = await JSONData.json();
@@ -45,12 +48,14 @@ async function loadJSON(url, callback) {
     callback(students);
 }
 
+// Set the JSON data to the allStudents array
 function prepareStudents(jsonData) {
     allStudents = jsonData.map(prepareStudent);
     //console.table(allStudents);
     setFilter(settings.filterBy);
 }
 
+// Clean the JSON data in objects, and return to the allStudent array
 function prepareStudent(jsonObject) {
     const student = Object.create(Student);
 
@@ -177,6 +182,7 @@ function setSort(sortBy, sortDir) {
     buildList();
 }
 
+// Sorts the filtered list
 function sortList(filteredList) {
     let direction = 1;
     if (settings.sortDir === "desc") {

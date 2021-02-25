@@ -229,31 +229,34 @@ function displayStudent(student) {
     clone.querySelector("[data-field=resp]").textContent = student.responsibilities;
     
     // Add click to the students in the list
-    clone.querySelector("tr").addEventListener("click", showStudentDetails);
-    function showStudentDetails() {
-        document.querySelector("#student_details").classList.remove("hide");
-        console.log(student);
-        document.querySelector(".col_left h3").textContent = `${student.lastName}, ${student.firstName.substring(0,1)}.`;
-        document.querySelector(".col_left [data-field=firs]").textContent = student.firstName;
-        document.querySelector(".col_left [data-field=midd]").textContent = student.middleName;
-        document.querySelector(".col_left [data-field=nick]").textContent = student.nickName;
-        document.querySelector(".col_left [data-field=last]").textContent = student.lastName;
-        document.querySelector(".col_left [data-field=gend]").textContent = student.gender;
-        document.querySelector(".col_left [data-field=bloo]").textContent = student.bloodStatus;
-        document.querySelector(".col_left [data-field=hous]").textContent = student.house;
-        document.querySelector(".col_left [data-field=resp]").textContent = student.responsibilities;
-        document.querySelector(".col_right img").src = student.imageUrl;
-        document.querySelector(".col_right img").alt = `Portrait of ${student.firstName} ${student.lastName}`;
+    clone.querySelector("tr").addEventListener("click", () => {
+        showStudentDetails(student);
+    });
     
-        // Add eventlisteners to buttons inside the student_details modal
-        document.querySelector(".content_header .close").addEventListener("click", closeStudentDetails);
-        function closeStudentDetails() {
-            document.querySelector(".content_header .close").removeEventListener("click", closeStudentDetails);
-            document.querySelector("#student_details").classList.add("hide");
-        }
-        // TODO: expel, inquisitorial, prefect buttons
-    }
-
     // Append clone to list
     document.querySelector("#list tbody").appendChild(clone);
+}
+
+function showStudentDetails(student) {
+    document.querySelector("#student_details").classList.remove("hide");
+    console.log(student);
+    document.querySelector(".col_left h3").textContent = `${student.lastName}, ${student.firstName.substring(0,1)}.`;
+    document.querySelector(".col_left [data-field=firs]").textContent = student.firstName;
+    document.querySelector(".col_left [data-field=midd]").textContent = student.middleName;
+    document.querySelector(".col_left [data-field=nick]").textContent = student.nickName;
+    document.querySelector(".col_left [data-field=last]").textContent = student.lastName;
+    document.querySelector(".col_left [data-field=gend]").textContent = student.gender;
+    document.querySelector(".col_left [data-field=bloo]").textContent = student.bloodStatus;
+    document.querySelector(".col_left [data-field=hous]").textContent = student.house;
+    document.querySelector(".col_left [data-field=resp]").textContent = student.responsibilities;
+    document.querySelector(".col_right img").src = student.imageUrl;
+    document.querySelector(".col_right img").alt = `Portrait of ${student.firstName} ${student.lastName}`;
+
+    // Add eventlisteners to buttons inside the student_details modal
+    document.querySelector(".content_header .close").addEventListener("click", closeStudentDetails);
+    function closeStudentDetails() {
+        document.querySelector(".content_header .close").removeEventListener("click", closeStudentDetails);
+        document.querySelector("#student_details").classList.add("hide");
+    }
+    // TODO: expel, inquisitorial, prefect buttons
 }

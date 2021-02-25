@@ -14,7 +14,9 @@ const Student = {
     gender: "",
     bloodStatus: "",
     house: "",
-    responsibilities: "None",
+    responsibilities: "",
+    prefect: false,
+    inquisitorial: false,
     imageUrl: ""
 };
 
@@ -226,7 +228,13 @@ function displayStudent(student) {
     clone.querySelector("[data-field=firs]").textContent = student.firstName;
     clone.querySelector("[data-field=last]").textContent = student.lastName;
     clone.querySelector("[data-field=hous]").textContent = student.house;
-    clone.querySelector("[data-field=resp]").textContent = student.responsibilities;
+    if (student.prefect === true) {
+        student.responsibilities = `Prefect`;
+        clone.querySelector("[data-field=resp]").textContent = `Prefect`;
+    } else {
+        student.responsibilities = "";
+        clone.querySelector("[data-field=resp]").textContent = student.responsibilities;
+    }
     
     // Add click to the students in the list
     clone.querySelector("tr").addEventListener("click", () => {
@@ -239,7 +247,7 @@ function displayStudent(student) {
 
 function showStudentDetails(student) {
     document.querySelector("#student_details").classList.remove("hide");
-    console.log(student);
+    //console.log(student);
     document.querySelector(".col_left h3").textContent = `${student.lastName}, ${student.firstName.substring(0,1)}.`;
     document.querySelector(".col_left [data-field=firs]").textContent = student.firstName;
     document.querySelector(".col_left [data-field=midd]").textContent = student.middleName;
@@ -248,15 +256,85 @@ function showStudentDetails(student) {
     document.querySelector(".col_left [data-field=gend]").textContent = student.gender;
     document.querySelector(".col_left [data-field=bloo]").textContent = student.bloodStatus;
     document.querySelector(".col_left [data-field=hous]").textContent = student.house;
-    document.querySelector(".col_left [data-field=resp]").textContent = student.responsibilities;
+    if (student.prefect === true) {
+        document.querySelector(".col_left [data-field=resp]").textContent = `Prefect`;
+    } else {
+        document.querySelector(".col_left [data-field=resp]").textContent = student.responsibilities;
+    }
     document.querySelector(".col_right img").src = student.imageUrl;
     document.querySelector(".col_right img").alt = `Portrait of ${student.firstName} ${student.lastName}`;
 
-    // Add eventlisteners to buttons inside the student_details modal
+    // Add click to close
     document.querySelector(".content_header .close").addEventListener("click", closeStudentDetails);
     function closeStudentDetails() {
         document.querySelector(".content_header .close").removeEventListener("click", closeStudentDetails);
         document.querySelector("#student_details").classList.add("hide");
     }
+
+    // Add click to prefect button
+    document.querySelector(".make_prefect").addEventListener("click", clickMakePrefect);
+    function clickMakePrefect() {
+        console.log("clickMakePrefect");
+        document.querySelector(".make_prefect").removeEventListener("click", clickMakePrefect);
+        if (student.prefect === true) {
+            console.log("is now false");
+            student.prefect = false;
+        } else {
+            tryToMakePrefect(student);
+        }
+        closeStudentDetails();
+        buildList();
+    }
     // TODO: expel, inquisitorial, prefect buttons
+}
+
+function tryToMakePrefect(selectedStudent) {
+    console.log(selectedStudent);
+
+    
+
+    // Array of all the prefects
+    const prefects = allStudents.filter(student => student.prefect === true);
+
+    // Array of the prefects of the same house as selected student 
+    const prefectsPerHouse = prefects.filter(student => student.house === selectedStudent.house);
+
+    // Array of the prefects of the same house and gender as selected student
+    const ofSameHouseAndGender = prefectsPerHouse.filter(student => student.gender === selectedStudent.gender).shift();
+
+    if (ofSameHouseAndGender !== undefined) {
+        console.log("This is too many...");
+        removeOtherPrefect(ofSameHouseAndGender);
+    } else {
+        makePrefect(selectedStudent);
+    }
+
+    function removeOtherPrefect() {
+        document.querySelector("#remove_other").classList.remove("hide");
+        document.querySelector("#remove_other").addEventListener("click", closeDialog);
+        document.querySelector("#remove_other .remove_other_prefect").addEventListener("click", clickRemovePrefect);
+
+        document.querySelector("#remove_other [data-field=selectedStudent]").textContent = `${selectedStudent.firstName} ${selectedStudent.lastName}`;
+
+        function closeDialog() {
+            document.querySelector("#remove_other").classList.add("hide");
+            document.querySelector("#remove_other").removeEventListener("click", closeDialog);
+            document.querySelector("#remove_other .remove_other_prefect").removeEventListener("click", clickRemovePrefect);    
+        }
+
+        function clickRemovePrefect(){
+            removePrefect(ofSameHouseAndGender);
+            makePrefect(selectedStudent);
+            buildList();
+            closeDialog();
+        }
+    }
+
+    function removePrefect(ofSameHouseAndGender) {
+        ofSameHouseAndGender.prefect = false;
+    }
+
+    function makePrefect(selectedStudent) {
+        selectedStudent.prefect = true;
+    }
 }

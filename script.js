@@ -40,6 +40,7 @@ function init() {
     });
 
     loadJSON("https://petlatkea.dk/2021/hogwarts/students.json", prepareStudents);
+    loadJSON("https://petlatkea.dk/2021/hogwarts/families.json", prepareBloodStatuses);
 }
 
 // Fetch JSON data
@@ -55,6 +56,22 @@ function prepareStudents(jsonData) {
     allStudents = jsonData.map(prepareStudent);
     //console.table(allStudents);
     setFilter(settings.filterBy);
+}
+
+function prepareBloodStatuses(jsonData) {
+    allStudents.forEach(student => {
+        student.bloodStatus = "Muggle born";
+        for (let i = 0; i < 63; i++) {
+            if (student.lastName === jsonData.pure[i]) {
+                student.bloodStatus = "Pure blood";
+            } 
+        }
+        for (let i = 0; i < 13; i++) {
+            if (student.lastName === jsonData.half[i]) {
+                student.bloodStatus = "Half blood";
+            }
+        }
+    });
 }
 
 // Clean the JSON data in objects, and return to the allStudent array
@@ -106,13 +123,9 @@ function prepareStudent(jsonObject) {
         student.gender = "Wizard";
     }
 
-    // TODO: Clean the blood status
-
     // Clean the houses
     student.house = jsonObject.house.trim();
     student.house = student.house.substring(0, 1).toUpperCase() + student.house.substring(1).toLowerCase();
-
-    // TODO: Clean the responsibilities
 
     // Add the image urls
     if (ifHyphens == -1) {
@@ -261,8 +274,10 @@ function showStudentDetails(student) {
     document.querySelector(".col_left [data-field=hous]").textContent = student.house;
     if (student.prefect === true) {
         document.querySelector(".col_left [data-field=resp]").textContent = `Prefect`;
+        document.querySelector("#student_details [data-field=makePrefect]").textContent = `Remove`;
     } else {
         document.querySelector(".col_left [data-field=resp]").textContent = student.responsibilities;
+        document.querySelector("#student_details [data-field=makePrefect]").textContent = `Make`;
     }
     document.querySelector(".col_right img").src = student.imageUrl;
     document.querySelector(".col_right img").alt = `Portrait of ${student.firstName} ${student.lastName}`;
@@ -280,7 +295,6 @@ function showStudentDetails(student) {
         console.log("clickMakePrefect");
         document.querySelector(".make_prefect").removeEventListener("click", clickMakePrefect);
         if (student.prefect === true) {
-            console.log("is now false");
             student.prefect = false;
         } else {
             tryToMakePrefect(student);
@@ -302,7 +316,7 @@ function tryToMakePrefect(selectedStudent) {
     // make the selected student prefect. If not, go to removeOtherPrefect. 
     if (ofSameHouseAndGender !== undefined) {
         console.log("This is too many...");
-        removeOtherPrefect(ofSameHouseAndGender);
+        removeOtherPrefect();
     } else {
         makePrefect(selectedStudent);
     }

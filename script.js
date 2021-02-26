@@ -285,7 +285,6 @@ function displayStudents(students) {
 
 // Displays the number of students
 function displayListDetails(students) {
-    console.log("displayListDetails");
     document.querySelector("#list_details [data-field=curr]").textContent = students.length;
     document.querySelector("#list_details [data-field=all]").textContent = allStudents.length;
     document.querySelector("#list_details [data-field=gryf]").textContent = getNumberOfStudents("gryf");
@@ -296,13 +295,12 @@ function displayListDetails(students) {
 }
 
 // Gets the number of students from each house
-function getNumberOfStudents(filter) {
-    console.log(filter);
+function getNumberOfStudents(house) {
     const numberOfStudents = allStudents.filter(getNumber);
 
     function getNumber(student) {
         //console.log(student);
-        if (student.house.substring(0, 4).toLowerCase() === filter) {
+        if (student.house.substring(0, 4).toLowerCase() === house) {
             return true;
         } 
     }

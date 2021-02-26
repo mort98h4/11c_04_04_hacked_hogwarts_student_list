@@ -266,29 +266,22 @@ function sortList(filteredList) {
     return sortedList;
 }
 
+// The user selected search input
 function selectSearch() {
-    console.log("selectSearch");
     const search = document.querySelector("[data-action=search]").value;
-    console.log(search);
     setSearch(search);
 }
 
+// Sets the user selected search input as the value to search the students 
 function setSearch(searchBy) {
-    console.log("setSearch");
     settings.searchBy = searchBy;
     settings.filterBy = "*";
-    console.log(settings.searchBy);
     buildList();
 }
 
+// Returns an array with students which fit the search input
 function searchList(sortedList) {
-    console.log("searchList");
-    let searchedList;
-    // if (settings.searchBy === "") {
-    //     searchedList = sortedList;
-    // } else {
-        searchedList = sortedList.filter(isStudentSearch);
-    // }
+    let searchedList = sortedList.filter(isStudentSearch);
 
     function isStudentSearch(student) {
     const firstName = student.firstName.toLowerCase();
@@ -300,8 +293,6 @@ function searchList(sortedList) {
         }
     }
 
-    //let searchedList = allStudents.includes(settings.searchBy);
-    console.log(searchedList);
     return searchedList;
 }
 

@@ -4,6 +4,7 @@
 
 h1 {
     text-align: center;
+    font-family: 'Beth Ellen', cursive;
 }
 
 body {
@@ -11,10 +12,66 @@ body {
     height: 100vh;
     width: 100vw;
     background-size: cover;
+    background-attachment: fixed;
     overflow-x: hidden;
+    font-family: 'Beth Ellen', cursive;
 }
 
 header {}
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    padding: 1rem;
+    background-image: url(images/bg_image.png);
+    background-size: cover;
+    border-right: 1px solid #000;
+    box-shadow: 1px 1px 10px #333;
+}
+
+nav input {
+    background-color: rgba(255, 255, 255, 0.4);
+    border: 1px solid #000;
+    border-radius: 2rem;
+    padding: 0.5rem;
+    color: rgba(0,0,0,1);
+    font-family: 'Beth Ellen', cursive;
+    font-size: 0.5rem;
+    box-shadow: 1px 1px 10px #333;
+}
+
+input:focus, button:focus {
+    outline: none;
+}
+
+nav ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+nav li {
+    font-size: 1rem;
+}
+
+.ml-1rem {
+    margin-left: 1rem;
+}
+
+button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 0;
+    font-family: 'Beth Ellen', cursive;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+button:hover {
+    text-decoration: underline;
+}
 
 main {
 }
@@ -22,6 +79,37 @@ main {
 #list {
     max-width: 1200px;
     margin: 0 auto;
+    padding-bottom: 3rem;
+}
+
+#list th {
+    width: 130px;
+}
+
+#list td {
+    font-size: 0.8rem;
+    line-height: 1.2rem;
+}
+
+#list tr {
+    cursor: pointer;
+}
+
+#list_details {
+    position: fixed;
+    top: 0;
+    right: 0;
+    margin: 1rem;
+    padding: 1rem;
+    border: 1px solid #000;
+    border-radius: 2rem;
+    background-image: url(images/bg_image.png);
+    box-shadow: 1px 1px 10px #333;
+}
+
+#list_details ul {
+    list-style: none;
+    padding-left: 0;
 }
 
 #sorting {
@@ -63,21 +151,52 @@ main {
     box-shadow: 1px 1px 10px #333;
     border-radius: 12px;
     padding: 2em;
-    background-color: #eee;
+    background-image: url(images/bg_image.png);
+
+    /* background-color: #eee; */
     /* position: relative; */
+    
 }
 
 .content_header {
-    /* position: relative; */
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: flex-start;
 }
+
+#student_details .close {
+    margin-bottom: 1rem;
+}
+
+.col_left {
+    width: 300px;
+}
+
+.col_right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.crest img {
+    width: 120px;
+    height: auto;
+}
+
+/* #student_details .content_header {
+    justify-content: space-between;
+} */
 
 .content_body {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    line-height: 1.5rem;
+    /* background-image: url(images/gryffindor.png);
+    background-size: cover;
+    background-repeat: none;
+    background-position: center;
+    height: 75vh; */
 }
 
 .content_body ul {
@@ -85,26 +204,11 @@ main {
     padding-left: 0;
 }
 
-/* .close {
-    position: absolute;
-    right: 0;
-    top: 0;
-    border-radius: 50%;
-    width: 2em;
-    height: 2em;
-  } */
-
-#list_details {
-    position: fixed;
-    top: 0;
-    right: 0;
-    margin: 1rem;
-    padding: 1rem;
-    border: 1px solid #000;
-    border-radius: 2rem;
+.content_buttons {
+    display: flex;
+    flex-direction: column;
 }
 
-#list_details ul {
-    list-style: none;
-    padding-left: 0;
+.content_buttons button {
+    line-height: 2rem;
 }

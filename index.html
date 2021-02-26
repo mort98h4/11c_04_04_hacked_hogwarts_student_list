@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex">
     <title>11c_04_04_hacked_hogwarts_student_list</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Beth+Ellen&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,12 +14,25 @@
         <h1>Hogwarts student list</h1>
         <nav id="filterButtons">
             <input type="search" data-action="search" placeholder="Search students...">
-            <button class="filter" data-action="filter" data-filter="*">All students</button>
-            <button class="filter" data-action="filter" data-filter="gryffindor">Gryffindor</button>
-            <button class="filter" data-action="filter" data-filter="slytherin">Slytherin</button>
-            <button class="filter" data-action="filter" data-filter="hufflepuff">Hufflepuff</button>
-            <button class="filter" data-action="filter" data-filter="ravenclaw">Ravenclaw</button>
-            <button class="filter" data-action="filter" data-filter="expelled">Expelled students</button>
+            <ul>
+                <li><button class="filter" data-action="filter" data-filter="*">All students</button></li>
+                <li>House</li>
+                <li class="ml-1rem"><button class="filter" data-action="filter" data-filter="gryffindor">Gryffindor</button></li>
+                <li class="ml-1rem"><button class="filter" data-action="filter" data-filter="slytherin">Slytherin</button></li>
+                <li class="ml-1rem"><button class="filter" data-action="filter" data-filter="hufflepuff">Hufflepuff</button></li>
+                <li class="ml-1rem"><button class="filter" data-action="filter" data-filter="ravenclaw">Ravenclaw</button></li>
+                <li>Gender</li>
+                <li class="ml-1rem"><button class="filter" data-action="filter" data-filter="witch">Witch</button></li></li>
+                <li class="ml-1rem"><button class="filter" data-action="filter" data-filter="wizard">Wizard</button></li></li>
+                <li>Responsibilities</li>
+                <li class="ml-1rem"><button class="filter" data-action="filter" data-filter="inquisitorial">Inquisitorial Squad</button></li></li>
+                <li class="ml-1rem"><button class="filter" data-action="filter" data-filter="prefect">Prefects</button></li></li>
+                <li>Blood status</li>
+                <li class="ml-1rem"><button class="filter" data-action="filter" data-filter="muggleborn">Muggle born</button></li></li>
+                <li class="ml-1rem"><button class="filter" data-action="filter" data-filter="halfblood">Half blood</button></li></li>
+                <li class="ml-1rem"><button class="filter" data-action="filter" data-filter="pureblood">Pure blood</button></li></li>
+                <li><button class="filter" data-action="filter" data-filter="expelled">Expelled students</button></li>
+            </ul>
         </nav>
     </header>
     <main>
@@ -35,7 +50,7 @@
             </tbody>
         </table>
         <section id="list_details">
-            <h2>Number of students</h2>
+            <h3>Number of students</h3>
             <ul>
                 <li>Currently showing: <span data-field="curr"></span></li>
                 <li>All students: <span data-field="all"></span></li>
@@ -60,7 +75,7 @@
     <div id="student_details" class="modal hide">
         <div class="content">
             <div class="content_header">
-                <img src="images/students/bulstrode_m.png" alt="house logo">
+                
                 <button class="close">X</button>
             </div>
             <div class="content_body">
@@ -79,6 +94,9 @@
                 </div>
                 <div class="col_right">
                     <img src="" alt="">
+                    <div class="crest">
+                        <img src="" alt="house crest">
+                    </div>
                 </div>
             </div>
             <div class="content_buttons">

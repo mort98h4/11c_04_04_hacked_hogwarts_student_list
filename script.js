@@ -150,6 +150,33 @@ function prepareStudent(jsonObject) {
         }
     }
 
+    // Add responsibilities
+    if (student.bloodStatus === "Pure blood" && student.house === "Slytherin") {
+        student.inquisitorial = true;
+    } else {
+        student.inquisitorial = false;
+    }
+
+    if (student.lastName === "Weasley") {
+        student.prefect = true;
+    } else if (student.lastName === "Granger") {
+        student.prefect = true;
+    } else if (student.lastName === "Malfoy") {
+        student.prefect = true;
+    } else if (student.lastName === "Parkinson") {
+        student.prefect = true;
+    } else if (student.lastName === "Goldstein") {
+        student.prefect = true;
+    } else if (student.lastName === "Patil" && student.house === "Ravenclaw") {
+        student.prefect = true;
+    } else if (student.lastName === "Macmillan") {
+        student.prefect = true;
+    } else if (student.lastName === "Abbott") {
+        student.prefect = true;
+    } else {
+        student.prefect = false;
+    }
+
     // Add the image urls
     if (ifHyphens == -1) {
         student.imageUrl = `images/students/${student.lastName.toLowerCase()}_${student.firstName.substring(0,1).toLowerCase()}.png`;
@@ -192,7 +219,6 @@ function filterList(filterListBy) {
 
 // The user seleceted sorting
 function selectSort() {
-    console.log(this.dataset.sort);
     const sortBy = this.dataset.sort;
     const sortDir = this.dataset.sortDirection;
 
@@ -216,7 +242,6 @@ function selectSort() {
 function setSort(sortBy, sortDir) {
     settings.sortBy = sortBy;
     settings.sortDir = sortDir;
-    console.log(settings.sortBy);
     buildList();
 }
 

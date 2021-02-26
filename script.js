@@ -502,12 +502,19 @@ function tryToMakeInqu(selectedStudent) {
 // Expelling of a student
 function tryToExpelStudent(selectedStudent) {
     console.log("tryToExpelStudent", selectedStudent.firstName);
+
     document.querySelector("#expel_student").classList.remove("hide");
     document.querySelector("#expel_student .close").addEventListener("click", closeDialog);
-    document.querySelector("#expel_student .expel_student").addEventListener("click", expelStudent);
 
-    document.querySelector("#expel_student [data-field=selectedStudent]").textContent = `${selectedStudent.firstName} ${selectedStudent.lastName}`;
-    document.querySelector(".expel_student [data-field=selectedStudent]").textContent = `${selectedStudent.firstName} ${selectedStudent.lastName}`;
+    if (expelledStudents.includes(selectedStudent)) {
+        document.querySelector("#expel_student [data-field=expelmessage]").textContent = `You can't expel ${selectedStudent.firstName} ${selectedStudent.lastName} twice!`;
+        document.querySelector("#expel_student .expel_student").style.display = "none";
+    } else {
+        document.querySelector("#expel_student .expel_student").addEventListener("click", expelStudent);
+        document.querySelector("#expel_student [data-field=expelmessage]").textContent = `Do you want to expel ${selectedStudent.firstName} ${selectedStudent.lastName}?`;
+        document.querySelector("#expel_student .expel_student").style.display = "block";
+        document.querySelector("#expel_student [data-field=selectedStudent]").textContent = `${selectedStudent.firstName} ${selectedStudent.lastName}`;
+    }
 
     function closeDialog() {
         document.querySelector("#expel_student .close").removeEventListener("click", closeDialog);

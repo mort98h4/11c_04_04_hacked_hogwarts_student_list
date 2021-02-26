@@ -506,23 +506,27 @@ function tryToExpelStudent(selectedStudent) {
     document.querySelector("#expel_student").classList.remove("hide");
     document.querySelector("#expel_student .close").addEventListener("click", closeDialog);
 
+    // If the selected student is already expelled
     if (expelledStudents.includes(selectedStudent)) {
         document.querySelector("#expel_student [data-field=expelmessage]").textContent = `You can't expel ${selectedStudent.firstName} ${selectedStudent.lastName} twice!`;
         document.querySelector("#expel_student .expel_student").style.display = "none";
-    } else {
+    } 
+    // If the selected student is not expelled
+    else {
         document.querySelector("#expel_student .expel_student").addEventListener("click", expelStudent);
         document.querySelector("#expel_student [data-field=expelmessage]").textContent = `Do you want to expel ${selectedStudent.firstName} ${selectedStudent.lastName}?`;
         document.querySelector("#expel_student .expel_student").style.display = "block";
         document.querySelector("#expel_student [data-field=selectedStudent]").textContent = `${selectedStudent.firstName} ${selectedStudent.lastName}`;
     }
 
+    // Close the dialog 
     function closeDialog() {
         document.querySelector("#expel_student .close").removeEventListener("click", closeDialog);
         document.querySelector("#expel_student .expel_student").removeEventListener("click", expelStudent);
         document.querySelector("#expel_student").classList.add("hide");
     }
 
-    // This should be inside a function from a click event
+    // The expelling of the selected student
     function expelStudent() {
         document.querySelector("#expel_student .expel_student").removeEventListener("click", expelStudent);
         const index = allStudents.indexOf(selectedStudent);

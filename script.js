@@ -200,17 +200,19 @@ function setFilter(filter) {
 
 // The function that defines the filtered list
 function filterList(filterListBy) {
-    const filteredList = allStudents.filter(isStudentFilter);
+    let filteredList;
+    if (filterListBy === "expelled") {
+        filteredList = expelledStudents;
+    } else {
+        filteredList = allStudents.filter(isStudentFilter);
+    }
 
     function isStudentFilter(student) {
         if (filterListBy === "*") {
             return allStudents;
         } else if (student.house.toLowerCase() === filterListBy.toLowerCase()) {
             return true;
-        }
-        // TODO: Add more filters
-        // TODO: Make special condition for showing only the expelled students. 
-        //       It might have something to do with a new array. Who knows.
+        } 
     }
     
     return filteredList;

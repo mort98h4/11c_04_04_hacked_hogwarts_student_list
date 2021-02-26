@@ -27,7 +27,8 @@ const Student = {
 const settings = {
     filterBy: "*",
     sortBy: "firstName",
-    sortDir: "asc"
+    sortDir: "asc",
+    searchBy: ""
 };
 
 // When the DOM is loaded, make filter and sort buttons clickable. Begin fetching JSON.
@@ -41,6 +42,7 @@ function init() {
     document.querySelectorAll("[data-action='sort']").forEach(button => {
         button.addEventListener("click", selectSort);
     });
+    document.querySelector("[data-action=search]").addEventListener("input", selectSearch);
 
     loadExternalData(); 
 }
@@ -264,12 +266,52 @@ function sortList(filteredList) {
     return sortedList;
 }
 
+function selectSearch() {
+    console.log("selectSearch");
+    const search = document.querySelector("[data-action=search]").value;
+    console.log(search);
+    setSearch(search);
+}
+
+function setSearch(searchBy) {
+    console.log("setSearch");
+    settings.searchBy = searchBy;
+    settings.filterBy = "*";
+    console.log(settings.searchBy);
+    buildList();
+}
+
+function searchList(sortedList) {
+    console.log("searchList");
+    let searchedList;
+    // if (settings.searchBy === "") {
+    //     searchedList = sortedList;
+    // } else {
+        searchedList = sortedList.filter(isStudentSearch);
+    // }
+
+    function isStudentSearch(student) {
+    const firstName = student.firstName.toLowerCase();
+    const lastName = student.lastName.toLowerCase();
+        if (settings.searchBy === "") {
+            return sortedList;
+        } else if (firstName.includes(settings.searchBy.toLowerCase()) || lastName.includes(settings.searchBy.toLowerCase())) {
+            return true;
+        }
+    }
+
+    //let searchedList = allStudents.includes(settings.searchBy);
+    console.log(searchedList);
+    return searchedList;
+}
+
 // The function that delegates the filter and the sorting
 function buildList() {
     const filteredList = filterList(settings.filterBy);
     const sortedList = sortList(filteredList);
+    const searchedList = searchList(sortedList);
 
-    displayStudents(sortedList);
+    displayStudents(searchedList);
 }
 
 // Displays the list of students

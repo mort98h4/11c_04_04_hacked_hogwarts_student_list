@@ -6,6 +6,7 @@ window.addEventListener("DOMContentLoaded", init);
 let allStudents = [];
 let halfBlood = [];
 let pureBlood = [];
+let expelledStudents = [];
 
 // Prototype for all the students
 const Student = {
@@ -79,8 +80,6 @@ function prepareStudents(jsonData) {
     //console.table(allStudents);
     setFilter(settings.filterBy);
 }
-
-
 
 // Clean the JSON data in objects, and return to the allStudent array
 function prepareStudent(jsonObject) {
@@ -360,6 +359,7 @@ function showStudentDetails(student) {
         // Remove click eventlisteners
         document.querySelector("#student_details .make_prefect").removeEventListener("click", clickMakePrefect);
         document.querySelector("#student_details .make_inqu").removeEventListener("click", clickMakeInqu);
+        document.querySelector("#student_details .expel").removeEventListener("click", clickExpelStudent);
         if (student.prefect === true) {
             student.prefect = false;
         } else {
@@ -376,6 +376,7 @@ function showStudentDetails(student) {
         // Remove click eventlisteners
         document.querySelector("#student_details .make_prefect").removeEventListener("click", clickMakePrefect);
         document.querySelector("#student_details .make_inqu").removeEventListener("click", clickMakeInqu);
+        document.querySelector("#student_details .expel").removeEventListener("click", clickExpelStudent);
         if (student.inquisitorial === true) {
             student.inquisitorial = false;
         } else {
@@ -385,7 +386,18 @@ function showStudentDetails(student) {
         closeStudentDetails();
         buildList();
     }
-    // TODO: expel
+    // Add click to expel button
+    document.querySelector("#student_details .expel").addEventListener("click", clickExpelStudent);
+    function clickExpelStudent() {
+        console.log("clickExpelStudent");
+        // Remove click eventlisteners
+        document.querySelector("#student_details .make_prefect").removeEventListener("click", clickMakePrefect);
+        document.querySelector("#student_details .make_inqu").removeEventListener("click", clickMakeInqu);
+        document.querySelector("#student_details .expel").removeEventListener("click", clickExpelStudent);
+        tryToExpelStudent(student);
+        closeStudentDetails();
+        buildList();
+    }
 }
 
 // Make a student prefect
@@ -447,6 +459,7 @@ function tryToMakeInqu(selectedStudent) {
     // Add click to close button
     document.querySelector("#make_inqu .close").addEventListener("click", closeDialog);
     function closeDialog() {
+        document.querySelector("#make_inqu .make_inqu").removeEventListener("click", clickInquButton);
         document.querySelector("#make_inqu").classList.add("hide");
         document.querySelector("#make_inqu .close").removeEventListener("click", closeDialog);
 
@@ -482,4 +495,33 @@ function tryToMakeInqu(selectedStudent) {
     function makeInqu(selectedStudent) {
         selectedStudent.inquisitorial = true;
     }
+}
+
+// Expelling of a student
+function tryToExpelStudent(selectedStudent) {
+    console.log("tryToExpelStudent", selectedStudent.firstName);
+    document.querySelector("#expel_student").classList.remove("hide");
+    document.querySelector("#expel_student .close").addEventListener("click", closeDialog);
+    document.querySelector("#expel_student .expel_student").addEventListener("click", expelStudent);
+
+    document.querySelector("#expel_student [data-field=selectedStudent]").textContent = `${selectedStudent.firstName} ${selectedStudent.lastName}`;
+    document.querySelector(".expel_student [data-field=selectedStudent]").textContent = `${selectedStudent.firstName} ${selectedStudent.lastName}`;
+
+    function closeDialog() {
+        document.querySelector("#expel_student .close").removeEventListener("click", closeDialog);
+        document.querySelector("#expel_student .expel_student").removeEventListener("click", expelStudent);
+        document.querySelector("#expel_student").classList.add("hide");
+    }
+
+    // This should be inside a function from a click event
+    function expelStudent() {
+        document.querySelector("#expel_student .expel_student").removeEventListener("click", expelStudent);
+        const index = allStudents.indexOf(selectedStudent);
+        allStudents.splice(index, 1);
+        expelledStudents.push(selectedStudent);
+        console.log(expelledStudents);
+        console.log(allStudents);
+        buildList();
+        closeDialog();
+    } 
 }

@@ -35,7 +35,7 @@ const settings = {
 function init() {
     console.log("init");
 
-    // Add eventlisteners for filtering and sorting buttons
+    // Add eventlisteners for searching, filtering and sorting
     document.querySelectorAll("[data-action='filter']").forEach(button => {
         button.addEventListener("click", selectFilter);
     });
@@ -378,6 +378,7 @@ function showStudentDetails(student) {
     document.querySelector("#student_details").classList.remove("hide");
 
     // Insert the specific student's details
+    
     document.querySelector(".col_left h3").textContent = `${student.lastName}, ${student.firstName.substring(0,1)}.`;
     document.querySelector(".col_left [data-field=firs]").textContent = student.firstName;
     document.querySelector(".col_left [data-field=midd]").textContent = student.middleName;
@@ -389,6 +390,7 @@ function showStudentDetails(student) {
     document.querySelector(".col_left [data-field=resp]").textContent = student.responsibilities;
     document.querySelector(".col_right img").src = student.imageUrl;
     document.querySelector(".col_right img").alt = `Portrait of ${student.firstName} ${student.lastName}`;
+    document.querySelector(".crest img").src = `images/${student.house.toLowerCase()}.png`;
 
     // Update button texts depending on responsibilities
     if (student.prefect === true && student.inquisitorial === false) {

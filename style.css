@@ -93,3 +93,18 @@ main {
     width: 2em;
     height: 2em;
   } */
+
+#list_details {
+    position: fixed;
+    top: 0;
+    right: 0;
+    margin: 1rem;
+    padding: 1rem;
+    border: 1px solid #000;
+    border-radius: 2rem;
+}
+
+#list_details ul {
+    list-style: none;
+    padding-left: 0;
+}

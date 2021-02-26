@@ -279,8 +279,35 @@ function displayStudents(students) {
     document.querySelector("#list tbody").innerHTML = "";
 
     // Build a new list
+    displayListDetails(students);
     students.forEach(displayStudent);
 }
+
+// Displays the number of students
+function displayListDetails(students) {
+    console.log("displayListDetails");
+    document.querySelector("#list_details [data-field=curr]").textContent = students.length;
+    document.querySelector("#list_details [data-field=all]").textContent = allStudents.length;
+    document.querySelector("#list_details [data-field=gryf]").textContent = getNumberOfStudents("gryf");
+    document.querySelector("#list_details [data-field=slyt]").textContent = getNumberOfStudents("slyt");
+    document.querySelector("#list_details [data-field=huff]").textContent = getNumberOfStudents("huff");
+    document.querySelector("#list_details [data-field=rave]").textContent = getNumberOfStudents("rave");
+    document.querySelector("#list_details [data-field=expe]").textContent = expelledStudents.length;
+}
+
+// Gets the number of students from each house
+function getNumberOfStudents(filter) {
+    console.log(filter);
+    const numberOfStudents = allStudents.filter(getNumber);
+
+    function getNumber(student) {
+        //console.log(student);
+        if (student.house.substring(0, 4).toLowerCase() === filter) {
+            return true;
+        } 
+    }
+    return numberOfStudents.length;
+} 
 
 // Display each student of the list
 function displayStudent(student) {

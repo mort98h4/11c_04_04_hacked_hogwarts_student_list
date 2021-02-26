@@ -4,6 +4,8 @@
 window.addEventListener("DOMContentLoaded", init);
 
 let allStudents = [];
+let halfBlood = [];
+let pureBlood = [];
 
 // Prototype for all the students
 const Student = {
@@ -39,16 +41,36 @@ function init() {
         button.addEventListener("click", selectSort);
     });
 
-    loadJSON("https://petlatkea.dk/2021/hogwarts/students.json", prepareStudents);
-    loadJSON("https://petlatkea.dk/2021/hogwarts/families.json", prepareBloodStatuses);
+    loadExternalData(); 
 }
 
-// Fetch JSON data
-async function loadJSON(url, callback) {
+function loadExternalData() {
+    let bloodLoaded = false;
+    loadJSON("https://petlatkea.dk/2021/hogwarts/families.json", prepareBloodStatuses);
+    loadJSON("https://petlatkea.dk/2021/hogwarts/students.json", isBloodLoaded);
+    // Fetch JSON data
+    async function loadJSON(url, callback) {
     const JSONData = await fetch(url);
     const students = await JSONData.json();
 
     callback(students);
+
+    }
+
+    function prepareBloodStatuses(jsonData) {
+        halfBlood = jsonData.half;
+        pureBlood = jsonData.pure;
+    
+        bloodLoaded = true;
+    }
+
+    function isBloodLoaded(jsonData) {
+        if (bloodLoaded = false) {
+            setTimeout(isBloodLoaded(jsonData), 100);
+        } else {
+            prepareStudents(jsonData);
+        }
+    }
 }
 
 // Set the JSON data to the allStudents array
@@ -58,21 +80,7 @@ function prepareStudents(jsonData) {
     setFilter(settings.filterBy);
 }
 
-function prepareBloodStatuses(jsonData) {
-    allStudents.forEach(student => {
-        student.bloodStatus = "Muggle born";
-        for (let i = 0; i < 63; i++) {
-            if (student.lastName === jsonData.pure[i]) {
-                student.bloodStatus = "Pure blood";
-            } 
-        }
-        for (let i = 0; i < 13; i++) {
-            if (student.lastName === jsonData.half[i]) {
-                student.bloodStatus = "Half blood";
-            }
-        }
-    });
-}
+
 
 // Clean the JSON data in objects, and return to the allStudent array
 function prepareStudent(jsonObject) {
@@ -126,6 +134,21 @@ function prepareStudent(jsonObject) {
     // Clean the houses
     student.house = jsonObject.house.trim();
     student.house = student.house.substring(0, 1).toUpperCase() + student.house.substring(1).toLowerCase();
+
+    // Add the bloodstatus
+    student.bloodStatus = "Muggle born";
+    const lenPure = pureBlood.length;
+    for (let i = 0; i < lenPure; i++) {
+        if (student.lastName === pureBlood[i]) {
+            student.bloodStatus = "Pure blood";
+        } 
+    }
+    const lenHalf = halfBlood.length;
+    for (let i = 0; i < lenHalf; i++) {
+        if (student.lastName === halfBlood[i]) {
+            student.bloodStatus = "Half blood";
+        }
+    }
 
     // Add the image urls
     if (ifHyphens == -1) {
@@ -406,16 +429,20 @@ function tryToMakeInqu(selectedStudent) {
 
     // If student is a pure blood, add selected students name to button and create message
     if (selectedStudent.bloodStatus === "Pure blood") {
-        document.querySelector("#make_inqu [data-field=inqumessage]").textContent = `${selectedStudent.firstName} ${selectedStudent.lastName} is a ${selectedStudent.bloodStatus.toLowerCase()} ${selectedStudent.gender.toLowerCase()}, and is eligible for the Inquisitorial Squad!`;
-        document.querySelector("#make_inqu [data-field=selectedStudent]").textContent = `${selectedStudent.firstName} ${selectedStudent.lastName}`;
-        document.querySelector("#make_inqu .make_inqu").style.display = "block";
-        document.querySelector("#make_inqu .make_inqu").addEventListener("click", clickInquButton);
+        isAbleToBeInqu()
     } 
     // If not, hide button and change message
     else {
         document.querySelector("#make_inqu .make_inqu").removeEventListener("click", clickInquButton);
         document.querySelector("#make_inqu [data-field=inqumessage]").textContent = `${selectedStudent.firstName} ${selectedStudent.lastName} is a ${selectedStudent.bloodStatus.toLowerCase()} ${selectedStudent.gender.toLowerCase()}, and is not eligible for the Inquisitorial Squad!`;
         document.querySelector("#make_inqu .make_inqu").style.display = "none";
+    }
+
+    function isAbleToBeInqu() {
+        document.querySelector("#make_inqu [data-field=inqumessage]").textContent = `${selectedStudent.firstName} ${selectedStudent.lastName} is a ${selectedStudent.bloodStatus.toLowerCase()} ${selectedStudent.gender.toLowerCase()}, and is eligible for the Inquisitorial Squad!`;
+        document.querySelector("#make_inqu [data-field=selectedStudent]").textContent = `${selectedStudent.firstName} ${selectedStudent.lastName}`;
+        document.querySelector("#make_inqu .make_inqu").style.display = "block";
+        document.querySelector("#make_inqu .make_inqu").addEventListener("click", clickInquButton);
     }
 
     // Click on inquisition button

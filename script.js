@@ -235,7 +235,7 @@ function selectSort() {
     // Find the element with class sortby, and remove the class
     document.querySelector(`[data-sort='${settings.sortBy}']`).classList.remove("sortby");
 
-    // TODO: Indicate active sorting
+    // Indicate active sorting
     this.classList.add("sortby");
 
     // Toggle the sorting direction
@@ -246,6 +246,9 @@ function selectSort() {
     }
 
     setSort(sortBy, sortDir);
+    if (settings.hacked === true) {
+        getNewBloodStatus();
+    }
 }
 
 // Sets the user selected sorting as the sort used to sort the list
@@ -299,6 +302,11 @@ function searchList(sortedList) {
                     lastName.includes(settings.searchBy.toLowerCase())) {
             return true;
         }
+    }
+
+    // Call hackTheSystem()
+    if (settings.searchBy.toLowerCase() === "i solemnly swear that i am up to no good") {
+        hackTheSystem();
     }
 
     return searchedList;

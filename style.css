@@ -31,18 +31,18 @@ nav {
     box-shadow: 1px 1px 10px #333;
 }
 
-nav input {
+input {
     background-color: rgba(255, 255, 255, 0.4);
     border: 1px solid #000;
     border-radius: 2rem;
     padding: 0.5rem;
     color: rgba(0,0,0,1);
     font-family: 'Beth Ellen', cursive;
-    font-size: 0.5rem;
+    font-size: 0.8rem;
     box-shadow: 1px 1px 10px #333;
 }
 
-input:focus, button:focus {
+input:focus, button:focus, select:focus {
     outline: none;
 }
 
@@ -209,4 +209,27 @@ main {
 
 .content_buttons button {
     line-height: 2rem;
+}
+
+#hacker .content_body {
+    flex-direction: column;
+}
+
+#hacker input, #hacker select {
+    margin: .5rem;
+}
+
+#hacker select {
+    background-color: rgba(255, 255, 255, 0.4);
+    border: 1px solid #000;
+    border-radius: 2rem;
+    padding: 0.5rem;
+    color: rgba(0,0,0,1);
+    font-family: 'Beth Ellen', cursive;
+    font-size: 0.8rem;
+    box-shadow: 1px 1px 10px #333;
+}
+
+#hacker button {
+    margin: 1rem;
 }

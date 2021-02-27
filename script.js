@@ -602,7 +602,8 @@ function tryToExpelStudent(selectedStudent) {
     if (expelledStudents.includes(selectedStudent)) {
         document.querySelector("#expel_student [data-field=expelmessage]").textContent = `You can't expel ${selectedStudent.firstName} ${selectedStudent.lastName} twice!`;
         document.querySelector("#expel_student .expel_student").style.display = "none";
-    } else if (selectedStudent.firstName === "Morten" && selectedStudent.lastName === "Gross") {
+    } else if (selectedStudent.firstName.toLowerCase() === document.querySelector("#firstName").value.toLowerCase() && 
+                selectedStudent.lastName.toLowerCase() === document.querySelector("#lastName").value.toLowerCase()) {
         document.querySelector("#expel_student [data-field=expelmessage]").textContent = `${selectedStudent.firstName} ${selectedStudent.lastName} can't be expelled!`;
         document.querySelector("#expel_student .expel_student").style.display = "none";
     }
@@ -636,21 +637,46 @@ function tryToExpelStudent(selectedStudent) {
 
 // Hack the system! 
 function hackTheSystem() {
-    console.log("hackTheSystem");
     if (settings.hacked === false) {
-        // Add myself to the list
-        const student = Object.create(Student);
-        student.firstName = "Morten";
-        student.lastName = "Gross";
-        student.gender = "Wizard";
-        student.house = "Gryffindor";
-        student.bloodStatus = "Muggle born";
-        student.imageUrl = "gross_m.png";
-        allStudents.push(student);
-        settings.hacked = true;
-        getNewBloodStatus();
-        resetInquStatus();
-    } 
+        console.log("hackTheSystem");
+        document.querySelector("#hacker").classList.remove("hide");
+        document.querySelector("#hacker .hack_list").addEventListener("click", addHackerToList);
+        document.querySelector("#hacker .close").addEventListener("click", closeDialog);
+    }
+
+    function closeDialog() {
+        document.querySelector("#hacker").classList.add("hide");
+        document.querySelector("#hacker .hack_list").removeEventListener("click", addHackerToList);
+        document.querySelector("#hacker .close").removeEventListener("click", closeDialog);
+    }
+
+    // Add the hacker to the list
+    function addHackerToList() {
+        console.log("addHackerToList");
+        document.querySelector("#hacker .hack_list").removeEventListener("click", addHackerToList);
+        document.querySelector("#hacker .close").removeEventListener("click", closeDialog);
+        document.querySelector("#filterButtons input").value = "";
+        settings.searchBy = "";
+
+            const firstValue = document.querySelector("#firstName").value;
+            const middleValue = document.querySelector("#middleName").value;
+            const nickValue = document.querySelector("#nickName").value;
+            const lastValue = document.querySelector("#lastName").value;
+            const student = Object.create(Student);
+            student.firstName = firstValue.substring(0, 1).toUpperCase() + firstValue.substring(1).toLowerCase();
+            student.middleName = middleValue.substring(0, 1).toUpperCase() + middleValue.substring(1).toLowerCase();
+            student.nickName = `"${nickValue.substring(0, 1).toUpperCase()}${nickValue.substring(1).toLowerCase()}"`;
+            student.lastName = lastValue.substring(0, 1).toUpperCase() + lastValue.substring(1).toLowerCase();
+            student.gender = document.querySelector("#gender").value;
+            student.house = document.querySelector("#house").value;
+            // TODO: Figure something out with an image
+            student.imageUrl = "gross_m.png";
+            allStudents.push(student);
+            settings.hacked = true;
+            closeDialog();
+            getNewBloodStatus();
+            resetInquStatus();
+    }
 }
 
 // Create random blood status for each students

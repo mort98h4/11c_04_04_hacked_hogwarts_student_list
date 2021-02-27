@@ -323,6 +323,8 @@ function displayStudents(students) {
         document.querySelector("main h2").textContent = settings.filterBy.substring(0, 1).toUpperCase() + settings.filterBy.substring(1).toLowerCase() + "es";
     } else if (settings.filterBy.toLowerCase() === "expelled") {
         document.querySelector("main h2").textContent = settings.filterBy.substring(0, 1).toUpperCase() + settings.filterBy.substring(1).toLowerCase() + " students";
+    } else if (settings.filterBy.toLowerCase() === "inquisitorial") {
+        document.querySelector("main h2").textContent = settings.filterBy.substring(0, 1).toUpperCase() + settings.filterBy.substring(1).toLowerCase() + " squad members";
     } else {
         document.querySelector("main h2").textContent = settings.filterBy.substring(0, 1).toUpperCase() + settings.filterBy.substring(1).toLowerCase() + "s";
     }
@@ -627,19 +629,20 @@ function tryToExpelStudent(selectedStudent) {
 // Hack the system! 
 function hackTheSystem() {
     console.log("hackTheSystem");
-    settings.hacked = true;
-    // Add myself to the list
-    const student = Object.create(Student);
-    student.firstName = "Morten";
-    student.lastName = "Gross";
-    student.gender = "Wizard";
-    student.house = "Gryffindor";
-    student.bloodStatus = "Muggle born";
-    student.imageUrl = "gross_m.png";
-    allStudents.push(student);
-    
-    getNewBloodStatus();
-    resetInquStatus();
+    if (settings.hacked === false) {
+        // Add myself to the list
+        const student = Object.create(Student);
+        student.firstName = "Morten";
+        student.lastName = "Gross";
+        student.gender = "Wizard";
+        student.house = "Gryffindor";
+        student.bloodStatus = "Muggle born";
+        student.imageUrl = "gross_m.png";
+        allStudents.push(student);
+        settings.hacked = true;
+        getNewBloodStatus();
+        resetInquStatus();
+    } 
 }
 
 // Create random blood status for each students
@@ -658,7 +661,7 @@ function getNewBloodStatus() {
     buildList();
 }
 
-// Set each students inquisitorial proberty to false
+// Set each students inquisitorial proberty to false after 5 seconds
 function resetInquStatus() {
     console.log("resetInquStatus");
 
@@ -668,7 +671,6 @@ function resetInquStatus() {
         allStudents.forEach(student => {
             student.inquisitorial = false;
         });
-
         buildList();
     }
 }

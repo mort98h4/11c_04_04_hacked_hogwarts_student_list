@@ -212,7 +212,10 @@ function filterList(filterListBy) {
     function isStudentFilter(student) {
         if (filterListBy === "*") {
             return allStudents;
-        } else if (student.house.toLowerCase() === filterListBy.toLowerCase()) {
+        } else if (student.house.toLowerCase() === filterListBy.toLowerCase() || 
+                    student.gender.toLowerCase() === filterListBy.toLowerCase() ||
+                    student.responsibilities.toLowerCase().includes(filterListBy.toLowerCase()) ||
+                    student.bloodStatus.toLowerCase() === filterListBy.toLowerCase()) {
             return true;
         } 
     }

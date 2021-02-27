@@ -28,7 +28,8 @@ const settings = {
     filterBy: "*",
     sortBy: "firstName",
     sortDir: "asc",
-    searchBy: ""
+    searchBy: "",
+    hacked: false
 };
 
 // When the DOM is loaded, make filter and sort buttons clickable. Begin fetching JSON.
@@ -192,6 +193,9 @@ function prepareStudent(jsonObject) {
 function selectFilter() {
     const filter = this.dataset.filter;
     setFilter(filter);
+    if (settings.hacked === true) {
+        getNewBloodStatus();
+    }
 } 
 
 // Sets the user selected filter as the filter used to filtrate the list
@@ -307,6 +311,10 @@ function buildList() {
     const searchedList = searchList(sortedList);
 
     displayStudents(searchedList);
+
+    // if (settings.hacked === true) {
+    //     setTimeout(getNewBloodStatus, 5000);
+    // }
 }
 
 // Displays the list of students
@@ -618,6 +626,7 @@ function tryToExpelStudent(selectedStudent) {
 // Hack the system! 
 function hackTheSystem() {
     console.log("hackTheSystem");
+    settings.hacked = true;
     // Add myself to the list
     const student = Object.create(Student);
     student.firstName = "Morten";
@@ -627,5 +636,27 @@ function hackTheSystem() {
     student.bloodStatus = "Muggle born";
     student.imageUrl = "gross_m.png";
     allStudents.push(student);
+    buildList();
+    
+    getNewBloodStatus();
+}
+
+function getNewBloodStatus() {
+    console.log("getNewBloodStatus");
+    allStudents.forEach(newBloodStatus);
+    buildList();
+}
+
+function newBloodStatus(student) {
+    console.log("newBloodStatus");
+    const random = Math.floor(Math.random()*3);
+    console.log(random);
+    if (random === 0) {
+        student.bloodStatus = "Muggle born";
+    } else if (random === 1) {
+        student.bloodStatus = "Half blood";
+    } else {
+        student.bloodStatus = "Pure blood";
+    }
     buildList();
 }

@@ -162,6 +162,7 @@ main {
     border-radius: 12px;
     padding: 2em;
     background-image: url(images/bg_image.png);
+    background-size: cover;
 }
 
 .content_header {

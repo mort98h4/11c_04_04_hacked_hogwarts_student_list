@@ -311,10 +311,6 @@ function buildList() {
     const searchedList = searchList(sortedList);
 
     displayStudents(searchedList);
-
-    // if (settings.hacked === true) {
-    //     setTimeout(getNewBloodStatus, 5000);
-    // }
 }
 
 // Displays the list of students
@@ -579,6 +575,11 @@ function tryToMakeInqu(selectedStudent) {
     // Make student inquisition squad member by setting proberty to true
     function makeInqu(selectedStudent) {
         selectedStudent.inquisitorial = true;
+
+        // If the system has been hacked
+        if (settings.hacked === true) {
+            resetInquStatus();
+        } 
     }
 }
 
@@ -636,27 +637,38 @@ function hackTheSystem() {
     student.bloodStatus = "Muggle born";
     student.imageUrl = "gross_m.png";
     allStudents.push(student);
-    buildList();
     
     getNewBloodStatus();
+    resetInquStatus();
 }
 
+// Create random blood status for each students
 function getNewBloodStatus() {
     console.log("getNewBloodStatus");
-    allStudents.forEach(newBloodStatus);
+    allStudents.forEach(student => {
+        const random = Math.floor(Math.random()*3);
+        if (random === 0) {
+            student.bloodStatus = "Muggle born";
+        } else if (random === 1) {
+            student.bloodStatus = "Half blood";
+        } else {
+            student.bloodStatus = "Pure blood";
+        }
+    });
     buildList();
 }
 
-function newBloodStatus(student) {
-    console.log("newBloodStatus");
-    const random = Math.floor(Math.random()*3);
-    console.log(random);
-    if (random === 0) {
-        student.bloodStatus = "Muggle born";
-    } else if (random === 1) {
-        student.bloodStatus = "Half blood";
-    } else {
-        student.bloodStatus = "Pure blood";
+// Set each students inquisitorial proberty to false
+function resetInquStatus() {
+    console.log("resetInquStatus");
+
+    setTimeout(removeInquStatus, 5000);
+    function removeInquStatus() {
+        console.log("removeInquStatus")
+        allStudents.forEach(student => {
+            student.inquisitorial = false;
+        });
+
+        buildList();
     }
-    buildList();
 }

@@ -2,7 +2,7 @@
     box-sizing: border-box;
 }
 
-h1 {
+h1, h2 {
     text-align: center;
     font-family: 'Beth Ellen', cursive;
 }
@@ -102,9 +102,13 @@ main {
     margin: 1rem;
     padding: 1rem;
     border: 1px solid #000;
-    border-radius: 2rem;
+    border-radius: 12px;
     background-image: url(images/bg_image.png);
     box-shadow: 1px 1px 10px #333;
+}
+
+#list_details h3 {
+    margin-top: 0;
 }
 
 #list_details ul {
@@ -152,10 +156,6 @@ main {
     border-radius: 12px;
     padding: 2em;
     background-image: url(images/bg_image.png);
-
-    /* background-color: #eee; */
-    /* position: relative; */
-    
 }
 
 .content_header {
@@ -183,20 +183,11 @@ main {
     height: auto;
 }
 
-/* #student_details .content_header {
-    justify-content: space-between;
-} */
-
 .content_body {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     line-height: 1.5rem;
-    /* background-image: url(images/gryffindor.png);
-    background-size: cover;
-    background-repeat: none;
-    background-position: center;
-    height: 75vh; */
 }
 
 .content_body ul {

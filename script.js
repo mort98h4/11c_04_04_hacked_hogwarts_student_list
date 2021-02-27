@@ -308,6 +308,15 @@ function buildList() {
 // Displays the list of students
 function displayStudents(students) {
     //console.log(students);
+
+    if (settings.filterBy === "*") {
+        document.querySelector("main h2").textContent = "All students";
+    } else if (settings.filterBy.toLowerCase() === "witch") {
+        document.querySelector("main h2").textContent = settings.filterBy.substring(0, 1).toUpperCase() + settings.filterBy.substring(1).toLowerCase() + "es";
+    } else {
+        document.querySelector("main h2").textContent = settings.filterBy.substring(0, 1).toUpperCase() + settings.filterBy.substring(1).toLowerCase() + "s";
+    }
+    
     // Clear the list
     document.querySelector("#list tbody").innerHTML = "";
 

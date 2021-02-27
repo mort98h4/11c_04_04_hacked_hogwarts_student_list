@@ -576,8 +576,6 @@ function tryToMakeInqu(selectedStudent) {
 
 // Expelling of a student
 function tryToExpelStudent(selectedStudent) {
-    console.log("tryToExpelStudent", selectedStudent.firstName);
-
     document.querySelector("#expel_student").classList.remove("hide");
     document.querySelector("#expel_student .close").addEventListener("click", closeDialog);
 
@@ -585,7 +583,10 @@ function tryToExpelStudent(selectedStudent) {
     if (expelledStudents.includes(selectedStudent)) {
         document.querySelector("#expel_student [data-field=expelmessage]").textContent = `You can't expel ${selectedStudent.firstName} ${selectedStudent.lastName} twice!`;
         document.querySelector("#expel_student .expel_student").style.display = "none";
-    } 
+    } else if (selectedStudent.firstName === "Morten" && selectedStudent.lastName === "Gross") {
+        document.querySelector("#expel_student [data-field=expelmessage]").textContent = `${selectedStudent.firstName} ${selectedStudent.lastName} can't be expelled!`;
+        document.querySelector("#expel_student .expel_student").style.display = "none";
+    }
     // If the selected student is not expelled
     else {
         document.querySelector("#expel_student .expel_student").addEventListener("click", expelStudent);
@@ -612,4 +613,19 @@ function tryToExpelStudent(selectedStudent) {
         buildList();
         closeDialog();
     } 
+}
+
+// Hack the system! 
+function hackTheSystem() {
+    console.log("hackTheSystem");
+    // Add myself to the list
+    const student = Object.create(Student);
+    student.firstName = "Morten";
+    student.lastName = "Gross";
+    student.gender = "Wizard";
+    student.house = "Gryffindor";
+    student.bloodStatus = "Muggle born";
+    student.imageUrl = "gross_m.png";
+    allStudents.push(student);
+    buildList();
 }

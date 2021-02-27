@@ -104,7 +104,13 @@ main {
     border: 1px solid #000;
     border-radius: 12px;
     background-image: url(images/bg_image.png);
+    background-size: cover;
     box-shadow: 1px 1px 10px #333;
+}
+
+#list_details img {
+    width: 200px;
+    height: auto;
 }
 
 #list_details h3 {

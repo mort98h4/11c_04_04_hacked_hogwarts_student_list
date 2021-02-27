@@ -291,7 +291,8 @@ function searchList(sortedList) {
     const lastName = student.lastName.toLowerCase();
         if (settings.searchBy === "") {
             return sortedList;
-        } else if (firstName.includes(settings.searchBy.toLowerCase()) || lastName.includes(settings.searchBy.toLowerCase())) {
+        } else if (firstName.includes(settings.searchBy.toLowerCase()) || 
+                    lastName.includes(settings.searchBy.toLowerCase())) {
             return true;
         }
     }

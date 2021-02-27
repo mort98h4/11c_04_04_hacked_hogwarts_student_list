@@ -313,6 +313,8 @@ function displayStudents(students) {
         document.querySelector("main h2").textContent = "All students";
     } else if (settings.filterBy.toLowerCase() === "witch") {
         document.querySelector("main h2").textContent = settings.filterBy.substring(0, 1).toUpperCase() + settings.filterBy.substring(1).toLowerCase() + "es";
+    } else if (settings.filterBy.toLowerCase() === "expelled") {
+        document.querySelector("main h2").textContent = settings.filterBy.substring(0, 1).toUpperCase() + settings.filterBy.substring(1).toLowerCase() + " students";
     } else {
         document.querySelector("main h2").textContent = settings.filterBy.substring(0, 1).toUpperCase() + settings.filterBy.substring(1).toLowerCase() + "s";
     }

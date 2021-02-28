@@ -428,6 +428,9 @@ function showStudentDetails(student) {
     
     document.querySelector(".col_right img").src = student.imageUrl;
     document.querySelector(".col_right img").alt = `Portrait of ${student.firstName} ${student.lastName}`;
+    if (student.imageUrl === "images/students/gross_m.png") {
+        document.querySelector(".col_right img").style.maxWidth = "120px";
+    }
     document.querySelector(".crest img").src = `images/${student.house.toLowerCase()}.png`;
 
     // Update button texts depending on responsibilities
@@ -449,6 +452,9 @@ function showStudentDetails(student) {
     document.querySelector(".content_header .close").addEventListener("click", closeStudentDetails);
     function closeStudentDetails() {
         document.querySelector(".content_header .close").removeEventListener("click", closeStudentDetails);
+        document.querySelector("#student_details .make_prefect").removeEventListener("click", clickMakePrefect);
+        document.querySelector("#student_details .make_inqu").removeEventListener("click", clickMakeInqu);
+        document.querySelector("#student_details .expel").removeEventListener("click", clickExpelStudent);
         document.querySelector("#student_details").classList.add("hide");
     }
 
@@ -680,8 +686,8 @@ function hackTheSystem() {
             student.lastName = lastValue.substring(0, 1).toUpperCase() + lastValue.substring(1).toLowerCase();
             student.gender = document.querySelector("#gender").value;
             student.house = document.querySelector("#house").value;
-            // TODO: Figure something out with an image
-            student.imageUrl = "gross_m.png";
+            student.imageUrl = `images/students/${student.lastName.toLowerCase()}_${student.firstName.substring(0,1).toLowerCase()}.png`;
+
             allStudents.push(student);
             settings.hacked = true;
             closeDialog();

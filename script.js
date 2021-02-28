@@ -33,7 +33,7 @@ const settings = {
     hacked: false
 };
 
-// When the DOM is loaded, make filter and sort buttons clickable. Begin fetching JSON.
+// When the DOM is loaded, make filter and sort buttons clickable. 
 function init() {
     console.log("init");
 
@@ -49,6 +49,7 @@ function init() {
     loadExternalData(); 
 }
 
+// Begin fetching JSON.
 function loadExternalData() {
     let bloodLoaded = false;
     loadJSON("https://petlatkea.dk/2021/hogwarts/families.json", prepareBloodStatuses);
@@ -62,6 +63,7 @@ function loadExternalData() {
     callback(students);
     }
 
+    // Set the different blood statuses to a matching array
     function prepareBloodStatuses(jsonData) {
         halfBlood = jsonData.half;
         pureBlood = jsonData.pure;
@@ -69,6 +71,7 @@ function loadExternalData() {
         bloodLoaded = true;
     }
 
+    // Waits for the families.json to be loaded
     function isBloodLoaded(jsonData) {
         if (bloodLoaded = false) {
             setTimeout(isBloodLoaded(jsonData), 100);
@@ -326,7 +329,6 @@ function buildList() {
 
 // Displays the list of students
 function displayStudents(students) {
-    //console.log(students);
 
     if (settings.filterBy === "*") {
         document.querySelector("main h2").textContent = "All students";
@@ -364,7 +366,6 @@ function getNumberOfStudents(house) {
     const numberOfStudents = allStudents.filter(getNumber);
 
     function getNumber(student) {
-        //console.log(student);
         if (student.house.substring(0, 4).toLowerCase() === house) {
             return true;
         } 
@@ -374,7 +375,6 @@ function getNumberOfStudents(house) {
 
 // Display each student of the list
 function displayStudent(student) {
-    //console.log(student);
     // Create the clone
     const clone = document.querySelector("template#student").content.cloneNode(true);
 
@@ -410,7 +410,6 @@ function showStudentDetails(student) {
     document.querySelector("#student_details").classList.remove("hide");
 
     // Insert the specific student's details
-    
     document.querySelector(".col_left h3").textContent = `${student.lastName}, ${student.firstName.substring(0,1)}.`;
     document.querySelector(".col_left [data-field=firs]").textContent = student.firstName;
     document.querySelector(".col_left [data-field=midd]").textContent = student.middleName;
@@ -461,7 +460,6 @@ function showStudentDetails(student) {
     // Add click to prefect button
     document.querySelector(".make_prefect").addEventListener("click", clickMakePrefect);
     function clickMakePrefect() {
-        console.log("clickMakePrefect");
         // Remove click eventlisteners
         document.querySelector("#student_details .make_prefect").removeEventListener("click", clickMakePrefect);
         document.querySelector("#student_details .make_inqu").removeEventListener("click", clickMakeInqu);
@@ -478,7 +476,6 @@ function showStudentDetails(student) {
     // Add click to inqisitorial squad button
     document.querySelector("#student_details .make_inqu").addEventListener("click", clickMakeInqu);
     function clickMakeInqu() {
-        console.log("clickMakeInqu");
         // Remove click eventlisteners
         document.querySelector("#student_details .make_prefect").removeEventListener("click", clickMakePrefect);
         document.querySelector("#student_details .make_inqu").removeEventListener("click", clickMakeInqu);
@@ -495,7 +492,6 @@ function showStudentDetails(student) {
     // Add click to expel button
     document.querySelector("#student_details .expel").addEventListener("click", clickExpelStudent);
     function clickExpelStudent() {
-        console.log("clickExpelStudent");
         // Remove click eventlisteners
         document.querySelector("#student_details .make_prefect").removeEventListener("click", clickMakePrefect);
         document.querySelector("#student_details .make_inqu").removeEventListener("click", clickMakeInqu);
@@ -652,7 +648,6 @@ function tryToExpelStudent(selectedStudent) {
 // Hack the system! 
 function hackTheSystem() {
     if (settings.hacked === false) {
-        console.log("hackTheSystem");
         document.querySelector("#hacker").classList.remove("hide");
         document.querySelector("#hacker .hack_list").addEventListener("click", addHackerToList);
         document.querySelector("#hacker .close").addEventListener("click", closeDialog);
@@ -669,7 +664,6 @@ function hackTheSystem() {
 
     // Add the hacker to the list
     function addHackerToList() {
-        console.log("addHackerToList");
         document.querySelector("#hacker .hack_list").removeEventListener("click", addHackerToList);
         document.querySelector("#hacker .close").removeEventListener("click", closeDialog);
         document.querySelector("[data-action='search']").value = "";
@@ -698,12 +692,9 @@ function hackTheSystem() {
  
 // Create random blood status for each students
 function getNewBloodStatus() {
-    console.log("getNewBloodStatus");
-
     allStudents.forEach(setNewBloodStatus);
         
     function setNewBloodStatus(student) {
-
         const random = getRandomNumber();
         function getRandomNumber() {
             return Math.floor(Math.random()*3);
@@ -723,11 +714,9 @@ function getNewBloodStatus() {
 
 // Set each students inquisitorial proberty to false after 5 seconds
 function resetInquStatus() {
-    console.log("resetInquStatus");
 
     setTimeout(removeInquStatus, 5000);
     function removeInquStatus() {
-        console.log("removeInquStatus")
         allStudents.forEach(student => {
             student.inquisitorial = false;
         });

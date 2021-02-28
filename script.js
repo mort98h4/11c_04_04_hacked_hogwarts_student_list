@@ -52,13 +52,13 @@ function loadExternalData() {
     let bloodLoaded = false;
     loadJSON("https://petlatkea.dk/2021/hogwarts/families.json", prepareBloodStatuses);
     loadJSON("https://petlatkea.dk/2021/hogwarts/students.json", isBloodLoaded);
+    
     // Fetch JSON data
     async function loadJSON(url, callback) {
     const JSONData = await fetch(url);
     const students = await JSONData.json();
 
     callback(students);
-
     }
 
     function prepareBloodStatuses(jsonData) {
@@ -283,10 +283,15 @@ function selectSearch() {
 }
 
 // Sets the user selected search input as the value to search the students 
-function setSearch(searchBy) {
-    settings.searchBy = searchBy;
+function setSearch(search) {
+    settings.searchBy = search;
     settings.filterBy = "*";
     buildList();
+    
+    // Call hackTheSystem()
+    if (settings.searchBy.toLowerCase() === "i solemnly swear that i am up to no good") {
+        hackTheSystem();
+    }
 }
 
 // Returns an array with students which fit the search input
@@ -304,10 +309,7 @@ function searchList(sortedList) {
         }
     }
 
-    // Call hackTheSystem()
-    if (settings.searchBy.toLowerCase() === "i solemnly swear that i am up to no good") {
-        hackTheSystem();
-    }
+
 
     return searchedList;
 }
@@ -472,11 +474,11 @@ function showStudentDetails(student) {
             student.inquisitorial = false;
         } else {
             tryToMakeInqu(student);
-            buildList();
         }
         closeStudentDetails();
         buildList();
     }
+
     // Add click to expel button
     document.querySelector("#student_details .expel").addEventListener("click", clickExpelStudent);
     function clickExpelStudent() {
@@ -628,8 +630,6 @@ function tryToExpelStudent(selectedStudent) {
         const index = allStudents.indexOf(selectedStudent);
         allStudents.splice(index, 1);
         expelledStudents.push(selectedStudent);
-        console.log(expelledStudents);
-        console.log(allStudents);
         buildList();
         closeDialog();
     } 
@@ -648,6 +648,9 @@ function hackTheSystem() {
         document.querySelector("#hacker").classList.add("hide");
         document.querySelector("#hacker .hack_list").removeEventListener("click", addHackerToList);
         document.querySelector("#hacker .close").removeEventListener("click", closeDialog);
+        document.querySelector("#filterButtons input").value = "";
+        settings.searchBy = "";
+        buildList();
     }
 
     // Add the hacker to the list
@@ -679,6 +682,7 @@ function hackTheSystem() {
     }
 }
 
+// TODO: Should it only be the original pure bloods, that gets messed up? 
 // Create random blood status for each students
 function getNewBloodStatus() {
     console.log("getNewBloodStatus");

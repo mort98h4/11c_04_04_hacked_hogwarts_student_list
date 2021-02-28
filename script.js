@@ -138,22 +138,22 @@ function prepareStudent(jsonObject) {
     student.house = student.house.substring(0, 1).toUpperCase() + student.house.substring(1).toLowerCase();
 
     // Add the bloodstatus
-    student.bloodStatus = "Muggle born";
+    student.bloodStatus = "Muggle-born";
     const lenPure = pureBlood.length;
     for (let i = 0; i < lenPure; i++) {
         if (student.lastName === pureBlood[i]) {
-            student.bloodStatus = "Pure blood";
+            student.bloodStatus = "Pure-blood";
         } 
     }
     const lenHalf = halfBlood.length;
     for (let i = 0; i < lenHalf; i++) {
         if (student.lastName === halfBlood[i]) {
-            student.bloodStatus = "Half blood";
+            student.bloodStatus = "Half-blood";
         }
     }
 
     // Add responsibilities
-    if (student.bloodStatus === "Pure blood" && student.house === "Slytherin") {
+    if (student.bloodStatus === "Pure-blood" && student.house === "Slytherin") {
         student.inquisitorial = true;
     } else {
         student.inquisitorial = false;
@@ -559,7 +559,7 @@ function tryToMakeInqu(selectedStudent) {
     }
 
     // If student is a pure blood, add selected students name to button and create message
-    if (selectedStudent.bloodStatus === "Pure blood") {
+    if (selectedStudent.bloodStatus === "Pure-blood") {
         isAbleToBeInqu()
     } 
     // If not, hide button and change message
@@ -696,11 +696,11 @@ function getNewBloodStatus() {
         }
 
         if (random === 0) {
-            student.bloodStatus = "Muggle born";
+            student.bloodStatus = "Muggle-born";
         } else if (random === 1) {
-            student.bloodStatus = "Half blood";
+            student.bloodStatus = "Half-blood";
         } else {
-            student.bloodStatus = "Pure blood";
+            student.bloodStatus = "Pure-blood";
         }
     }
 

@@ -148,8 +148,6 @@ main h2 {
     text-decoration: underline;
 }
 
-/***** TODO: 
-        Find new indication arrows *****/
 #sorting th.sortby[data-sort-direction="asc"]::after {
     content: " ᐱ";
 }

@@ -37,7 +37,7 @@ function init() {
     console.log("init");
 
     // Add eventlisteners for searching, filtering and sorting
-    document.querySelectorAll("[data-action='filter']").forEach(button => {
+    document.querySelectorAll("[data-action=filter]").forEach(button => {
         button.addEventListener("click", selectFilter);
     });
     document.querySelectorAll("[data-action='sort']").forEach(button => {

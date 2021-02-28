@@ -17,11 +17,21 @@ body {
     font-family: 'Beth Ellen', cursive;
 }
 
-header {}
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    border-bottom: 1px solid #000;
+    box-shadow: 1px 1px 10px #333;
+    background-image: url(images/bg_image.png);
+    background-size: cover;
+    z-index: 10;
+}
 
 nav {
     position: fixed;
-    top: 0;
+    top: 114px;
     left: 0;
     height: 100vh;
     padding: 1rem;
@@ -49,6 +59,8 @@ input:focus, button:focus, select:focus {
 nav ul {
     list-style: none;
     padding-left: 0;
+    margin-top: 0;
+    line-height: 2;
 }
 
 nav li {
@@ -73,7 +85,8 @@ button:hover {
     text-decoration: underline;
 }
 
-main {
+main h2 {
+    margin-top: 140px;
 }
 
 #list {
@@ -97,18 +110,17 @@ main {
 
 #list_details {
     position: fixed;
-    top: 0;
+    top: 114px;
     right: 0;
-    margin: 1rem;
     padding: 1rem;
     border: 1px solid #000;
-    border-radius: 12px;
     background-image: url(images/bg_image.png);
     background-size: cover;
     box-shadow: 1px 1px 10px #333;
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 100vh;
 }
 
 #list_details img {
@@ -118,12 +130,14 @@ main {
 }
 
 #list_details h3 {
-    margin-top: 0;
+    margin: 0;
 }
 
 #list_details ul {
     list-style: none;
     padding-left: 0;
+    margin-top: 0;
+    line-height: 2;
 }
 
 #sorting {
@@ -137,11 +151,11 @@ main {
 /***** TODO: 
         Find new indication arrows *****/
 #sorting th.sortby[data-sort-direction="asc"]::after {
-    content: "▲";
+    content: " ᐱ";
 }
   
 #sorting th.sortby[data-sort-direction="desc"]::after {
-    content: "▼";
+    content: " ᐯ";
 }
 
 /***** MODALS *****/

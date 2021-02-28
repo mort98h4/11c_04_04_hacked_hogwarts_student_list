@@ -648,7 +648,7 @@ function hackTheSystem() {
         document.querySelector("#hacker").classList.add("hide");
         document.querySelector("#hacker .hack_list").removeEventListener("click", addHackerToList);
         document.querySelector("#hacker .close").removeEventListener("click", closeDialog);
-        document.querySelector("#filterButtons input").value = "";
+        document.querySelector("[data-action='search']").value = "";
         settings.searchBy = "";
         buildList();
     }
@@ -658,7 +658,7 @@ function hackTheSystem() {
         console.log("addHackerToList");
         document.querySelector("#hacker .hack_list").removeEventListener("click", addHackerToList);
         document.querySelector("#hacker .close").removeEventListener("click", closeDialog);
-        document.querySelector("#filterButtons input").value = "";
+        document.querySelector("[data-action='search']").value = "";
         settings.searchBy = "";
 
             const firstValue = document.querySelector("#firstName").value;

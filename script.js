@@ -395,6 +395,10 @@ function displayStudent(student) {
     }
     clone.querySelector("[data-field=resp]").textContent = student.responsibilities;
 
+    if (student.enrollment === false) {
+        clone.querySelector("tr").style.textDecoration = "line-through";
+    }
+
     // Add click to the students in the list
     clone.querySelector("tr").addEventListener("click", clickStudentDetails);
     function clickStudentDetails() {

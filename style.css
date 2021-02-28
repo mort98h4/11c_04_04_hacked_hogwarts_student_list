@@ -252,6 +252,10 @@ main h2 {
 }
 
 footer {
+    position: absolute;
+    width: 100vw;
+    left: 0;
+    bottom: -700px;
     background-color: #343434;
     color: #ececec;
     font-family: sans-serif;

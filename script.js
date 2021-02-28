@@ -20,6 +20,7 @@ const Student = {
     responsibilities: "",
     prefect: false,
     inquisitorial: false,
+    enrollment: true,
     imageUrl: ""
 };
 
@@ -419,6 +420,12 @@ function showStudentDetails(student) {
     document.querySelector(".col_left [data-field=bloo]").textContent = student.bloodStatus;
     document.querySelector(".col_left [data-field=hous]").textContent = student.house;
     document.querySelector(".col_left [data-field=resp]").textContent = student.responsibilities;
+    if (student.enrollment === false) {
+        document.querySelector(".col_left [data-field=enro]").textContent = "Expelled";
+    } else {
+        document.querySelector(".col_left [data-field=enro]").textContent = "Enrolled";
+    }
+    
     document.querySelector(".col_right img").src = student.imageUrl;
     document.querySelector(".col_right img").alt = `Portrait of ${student.firstName} ${student.lastName}`;
     document.querySelector(".crest img").src = `images/${student.house.toLowerCase()}.png`;
@@ -627,6 +634,7 @@ function tryToExpelStudent(selectedStudent) {
     // The expelling of the selected student
     function expelStudent() {
         document.querySelector("#expel_student .expel_student").removeEventListener("click", expelStudent);
+        selectedStudent.enrollment = false;
         const index = allStudents.indexOf(selectedStudent);
         allStudents.splice(index, 1);
         expelledStudents.push(selectedStudent);

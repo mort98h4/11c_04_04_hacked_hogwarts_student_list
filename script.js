@@ -681,13 +681,20 @@ function hackTheSystem() {
             resetInquStatus();
     }
 }
-
-// TODO: Should it only be the original pure bloods, that gets messed up? 
+ 
 // Create random blood status for each students
 function getNewBloodStatus() {
     console.log("getNewBloodStatus");
-    allStudents.forEach(student => {
-        const random = Math.floor(Math.random()*3);
+
+    allStudents.forEach(setNewBloodStatus);
+        
+    function setNewBloodStatus(student) {
+
+        const random = getRandomNumber();
+        function getRandomNumber() {
+            return Math.floor(Math.random()*3);
+        }
+
         if (random === 0) {
             student.bloodStatus = "Muggle born";
         } else if (random === 1) {
@@ -695,7 +702,8 @@ function getNewBloodStatus() {
         } else {
             student.bloodStatus = "Pure blood";
         }
-    });
+    }
+
     buildList();
 }
 
